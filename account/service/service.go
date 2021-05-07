@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/go-playground/validator/v10"
-	iemail "github.com/idirall22/crypto_app/account/adapters/email"
 	irepository "github.com/idirall22/crypto_app/account/adapters/repository"
+	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/microcosm-cc/bluemonday"
 	"go.uber.org/zap"
 )
@@ -11,18 +11,23 @@ import (
 type ServiceAccount struct {
 	logger    *zap.Logger
 	repo      irepository.IRepository
-	email     iemail.IEmail
+	token     auth.TokenGenerator
 	validator *validator.Validate
 	sanitizer *bluemonday.Policy
 }
 
-func NewServiceAccount(logger *zap.Logger, repo irepository.IRepository, email iemail.IEmail) *ServiceAccount {
+func NewServiceAccount(
+	logger *zap.Logger,
+	repo irepository.IRepository,
+	token auth.TokenGenerator,
+) *ServiceAccount {
+
 	validator := validator.New()
 	sanitizer := bluemonday.UGCPolicy()
 	return &ServiceAccount{
 		logger:    logger,
 		repo:      repo,
-		email:     email,
+		token:     token,
 		validator: validator,
 		sanitizer: sanitizer,
 	}

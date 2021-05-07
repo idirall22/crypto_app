@@ -8,13 +8,13 @@ import (
 )
 
 const (
-	minSecretKeySize = 32
+	minSecretKeySize = 8
 	issuer           = "crypto_app.com"
 )
 
 // TokenInfos struct
 type TokenInfos struct {
-	Token        string `json:"token"`
+	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
@@ -43,7 +43,7 @@ func (g *JWTGenerator) CreatePairToken(userID int32, Role string) (TokenInfos, e
 		return ti, err
 	}
 	ti.RefreshToken = refreshToken
-	ti.Token = token
+	ti.AccessToken = token
 	return ti, nil
 }
 

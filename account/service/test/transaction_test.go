@@ -6,8 +6,8 @@ import (
 
 	"github.com/brianvoe/gofakeit"
 	"github.com/google/uuid"
-	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/idirall22/crypto_app/account/service/model"
+	"github.com/idirall22/crypto_app/auth"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )

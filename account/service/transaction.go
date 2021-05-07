@@ -56,12 +56,7 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 		return tran, err
 	}
 
-	tran, err = s.repo.SendMoney(ctx, args)
-	if err != nil {
-		return tran, ErrorInternalError
-	}
-
-	return tran, nil
+	return s.repo.SendMoney(ctx, args)
 }
 
 func checkIfCanSendMoney(w model.Wallet, t model.SendMoneyParams) error {

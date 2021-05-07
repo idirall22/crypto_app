@@ -59,6 +59,6 @@ type ActivateAccountParams struct {
 }
 
 type GetUserParams struct {
-	UserID int32  `json:"id" validate:"omitempty,gt=0"`
-	Email  string `json:"email" validate:"omitempty,email"`
+	UserID int32  `json:"id" param:"user_id" validate:"omitempty,gt=0"`
+	Email  string `json:"email" parma:"email" validate:"omitempty,email"`
 }

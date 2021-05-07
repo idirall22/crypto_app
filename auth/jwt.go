@@ -1,15 +1,12 @@
 package auth
 
 import (
+	"crypto/rsa"
 	"errors"
-	"fmt"
+	"io/ioutil"
 
 	"github.com/dgrijalva/jwt-go"
-)
-
-const (
-	minSecretKeySize = 8
-	issuer           = "crypto_app.com"
+	"github.com/idirall22/crypto_app/account/config"
 )
 
 // TokenInfos struct
@@ -20,15 +17,36 @@ type TokenInfos struct {
 
 // JWTGenerator is a JSON Web Token maker
 type JWTGenerator struct {
-	secretKey string
+	signKey     *rsa.PrivateKey
+	verifiedKey *rsa.PublicKey
 }
 
 // NewJWTGenerator creates a new JWTGenerator
-func NewJWTGenerator(secretKey string) (*JWTGenerator, error) {
-	if len(secretKey) < minSecretKeySize {
-		return nil, fmt.Errorf("invalid key size: must be at least %d characters", minSecretKeySize)
+func NewJWTGenerator(cfg *config.Config) (*JWTGenerator, error) {
+
+	var JWTGenerator *JWTGenerator
+	//openssl genrsa -out key.pem 2048
+	signBytes, err := ioutil.ReadFile(cfg.JwtPrivatePath)
+	if err != nil {
+		return JWTGenerator, err
 	}
-	return &JWTGenerator{secretKey}, nil
+	//openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+	verifyBytes, err := ioutil.ReadFile(cfg.JwtPublicPath)
+	if err != nil {
+		return JWTGenerator, err
+	}
+	signKey, err := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
+	if err != nil {
+		return JWTGenerator, err
+	}
+	verifiedKey, err := jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
+	if err != nil {
+		return JWTGenerator, err
+	}
+	JWTGenerator.signKey = signKey
+	JWTGenerator.verifiedKey = verifiedKey
+
+	return JWTGenerator, nil
 }
 
 // CreatePairToken creates a new token and refresh_token
@@ -60,7 +78,7 @@ func (g *JWTGenerator) createToken(userID int32, role string) (string, error) {
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 
-	token, err := jwtToken.SignedString([]byte(g.secretKey))
+	token, err := jwtToken.SignedString(g.signKey)
 	return token, err
 }
 
@@ -72,7 +90,7 @@ func (g *JWTGenerator) VerifyToken(token string) (*Payload, error) {
 		if !ok {
 			return nil, ErrInvalidToken
 		}
-		return []byte(g.secretKey), nil
+		return g.verifiedKey, nil
 	}
 
 	jwtToken, err := jwt.ParseWithClaims(token, &Payload{}, keyFunc)

@@ -78,17 +78,17 @@ func (p *PostgresRepo) RegisterUser(ctx context.Context, args model.RegisterUser
 		return nil
 	})
 
-	return user, err
+	return user, parseError(err)
 }
 
 func (p *PostgresRepo) ActivateAccount(ctx context.Context, args model.ActivateAccountParams) (model.User, error) {
 	var user model.User
 	err := p.db.GetContext(ctx, &user, activateAccountStmt, args.XXX_IsActive, args.ConfirmationLink)
-	return user, err
+	return user, parseError(err)
 }
 
 func (p *PostgresRepo) GetUser(ctx context.Context, args model.GetUserParams) (model.User, error) {
 	var user model.User
 	err := p.db.GetContext(ctx, &user, getUserStmt, args.UserID, args.Email)
-	return user, err
+	return user, parseError(err)
 }

@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/google/uuid"
 	"github.com/idirall22/crypto_app/account/auth"
@@ -32,11 +31,8 @@ func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUs
 	args.XXX_WalletAddresses = []string{uuid.NewString(), uuid.NewString()}
 
 	_, err = s.repo.RegisterUser(ctx, args)
-	if err != nil {
-		return ErrorInternalError
-	}
 
-	return nil
+	return err
 }
 
 func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserParams) (auth.TokenInfos, error) {
@@ -51,10 +47,11 @@ func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserPara
 
 	user, err := s.repo.GetUser(ctx, model.GetUserParams{Email: args.Email})
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return tokens, ErrorGetUser
-		}
-		return tokens, ErrorInternalError
+		return tokens, err
+	}
+
+	if !user.IsActive {
+		return tokens, ErrorUserAccountNoActive
 	}
 
 	err = utils.CheckPassword(args.Password, user.PasswordHash)

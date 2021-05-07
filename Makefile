@@ -3,7 +3,7 @@ include example.env
 DOCKER_POSTGRES_NAME=crypto
 
 rsa-genrate:
-	openssl genrsa -out key.pem 2048 && openssl rsa -in key.pem -pubout -out public.pem
+	openssl genrsa -out rsa/key.pem 2048 && openssl rsa -in rsa/key.pem -pubout -out rsa/public.pem
 
 # mock services
 mocks:

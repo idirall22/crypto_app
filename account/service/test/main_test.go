@@ -6,8 +6,9 @@ import (
 	"testing"
 
 	mockrepo "github.com/idirall22/crypto_app/account/adapters/repository/postgres/mock"
-	"github.com/idirall22/crypto_app/account/auth"
+	"github.com/idirall22/crypto_app/account/config"
 	"github.com/idirall22/crypto_app/account/service"
+	"github.com/idirall22/crypto_app/auth"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 )
@@ -23,7 +24,8 @@ func TestMain(m *testing.M) {
 		log.Fatal(err)
 	}
 
-	token, err := auth.NewJWTGenerator("secretkey")
+	cfg := config.New()
+	token, err := auth.NewJWTGenerator(cfg)
 	if err != nil {
 		log.Fatal(err)
 	}

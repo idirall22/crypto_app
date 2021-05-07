@@ -6,8 +6,8 @@ const (
 )
 
 type Pagination struct {
-	Page  int32 `json:"page"`
-	Items int32 `json:"items"`
+	Page  int32 `json:"page" query:"page"`
+	Items int32 `json:"items" query:"items"`
 }
 
 func (p *Pagination) NormalizeInput() {

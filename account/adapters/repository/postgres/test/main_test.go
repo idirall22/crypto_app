@@ -1,7 +1,6 @@
 package pgrepo_test
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -23,7 +22,6 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(cfg.RepositoryConfig())
 
 	db, err := sqlx.Connect(cfg.RepositoryConfig())
 	if err != nil {

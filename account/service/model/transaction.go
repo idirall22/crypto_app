@@ -15,15 +15,15 @@ type Transaction struct {
 }
 
 type ListTransactionsParams struct {
-	Pagination          Pagination          `json:"pagination"`
-	SearchTransactionBy SearchTransactionBy `json:"search_transaction_by"`
-	UserID              int32               `json:"user" validate:"required,gt=0"`
+	Pagination          Pagination          `json:"pagination" query:"pagination"`
+	SearchTransactionBy SearchTransactionBy `json:"search_transaction_by" query:"search_transaction_by"`
+	UserID              int32               `json:"user" param:"user_id" validate:"required,gt=0"`
 }
 
 type SearchTransactionBy struct {
-	Address  *string    `json:"address" validate:"omitempty,uuid4"`
-	FromDate *time.Time `json:"from_date" validate:"omitempty"`
-	ToDate   *time.Time `json:"to_date" validate:"omitempty"`
+	Address  *string    `json:"address" query:"address" validate:"omitempty,uuid4"`
+	FromDate *time.Time `json:"from_date" query:"from_date" validate:"omitempty"`
+	ToDate   *time.Time `json:"to_date" query:"to_date" validate:"omitempty"`
 }
 
 type SendMoneyParams struct {

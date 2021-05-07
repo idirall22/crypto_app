@@ -38,7 +38,7 @@ func (p *PostgresRepo) ListTransactions(ctx context.Context, args model.ListTran
 		args.Pagination.Page,
 		args.Pagination.Items,
 	)
-	return trans, err
+	return trans, parseError(err)
 }
 
 func (p *PostgresRepo) SendMoney(ctx context.Context, args model.SendMoneyParams) (model.Transaction, error) {
@@ -69,12 +69,9 @@ func (p *PostgresRepo) SendMoney(ctx context.Context, args model.SendMoneyParams
 			args.SenderAddress,
 			args.Currency,
 		)
-		if err != nil {
-			return err
-		}
 
 		return err
 	})
 
-	return tran, err
+	return tran, parseError(err)
 }

@@ -19,7 +19,7 @@ func listWalletsForTest(t *testing.T) []model.Wallet {
 	res, err := repoTest.ListWallets(ctx, params)
 	require.NoError(t, err)
 	require.NotZero(t, res)
-	require.Equal(t, len(defaultCurrencies), len(res))
+	require.Equal(t, len(model.DefaultCurrencies), len(res))
 	for _, w := range res {
 		require.Equal(t, user.ID, w.UserID)
 	}

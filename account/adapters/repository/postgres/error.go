@@ -3,6 +3,7 @@ package pgrepo
 import (
 	"database/sql"
 	"errors"
+	"log"
 
 	"github.com/lib/pq"
 )
@@ -53,5 +54,6 @@ func parseError(err error) error {
 			return ErrorAlreadyExists
 		}
 	}
+	log.Println(err)
 	return ErrorInternalError
 }

@@ -23,18 +23,18 @@ type JWTGenerator struct {
 
 // NewJWTGenerator creates a new JWTGenerator
 func NewJWTGenerator(cfg *config.Config) (*JWTGenerator, error) {
+	var JWTGenerator = &JWTGenerator{}
 
-	var JWTGenerator *JWTGenerator
-	//openssl genrsa -out key.pem 2048
 	signBytes, err := ioutil.ReadFile(cfg.JwtPrivatePath)
 	if err != nil {
 		return JWTGenerator, err
 	}
-	//openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+
 	verifyBytes, err := ioutil.ReadFile(cfg.JwtPublicPath)
 	if err != nil {
 		return JWTGenerator, err
 	}
+
 	signKey, err := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
 	if err != nil {
 		return JWTGenerator, err
@@ -76,7 +76,7 @@ func (g *JWTGenerator) createToken(userID int32, role string) (string, error) {
 		return "", err
 	}
 
-	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
+	jwtToken := jwt.NewWithClaims(jwt.SigningMethodRS256, payload)
 
 	token, err := jwtToken.SignedString(g.signKey)
 	return token, err

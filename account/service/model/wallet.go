@@ -9,7 +9,7 @@ type Wallet struct {
 }
 
 type ListWalletsParams struct {
-	UserID int32 `json:"user_id" validate:"required,gt=0"`
+	UserID int32 `param:"user_id" validate:"required,gt=0"`
 }
 
 type GetWalletParams struct {

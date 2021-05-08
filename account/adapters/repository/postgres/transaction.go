@@ -8,13 +8,27 @@ import (
 )
 
 var listTransactionStmt = `
-SELECT * FROM transaction
+SELECT * FROM transaction 
 WHERE
 (sender_address=COALESCE($1, sender_address) OR recipient_address=COALESCE($1, recipient_address))
 AND created_at >= COALESCE($2,created_at)
 AND created_at <= COALESCE($3,created_at)
-ORDER BY created_at DESC OFFSET $4 LIMIT $5
+ORDER BY
+CASE WHEN $4 = 'desc' THEN created_at  END desc,
+CASE WHEN $4 = 'asc'  THEN created_at  END asc
+OFFSET $5 LIMIT $6
+
 `
+
+// SELECT * FROM transaction
+// WHERE
+// (sender_address=COALESCE($1, sender_address) OR recipient_address=COALESCE($1, recipient_address))
+// AND created_at >= COALESCE($2,created_at)
+// AND created_at <= COALESCE($3,created_at)
+// ORDER BY created_at
+// 	CASE WHEN 'desc' THEN
+
+// OFFSET $4 LIMIT $5
 
 var updateWalletStmt = `
 UPDATE wallet SET
@@ -32,11 +46,12 @@ RETURNING id, amount, commission, currency, sender_address, recipient_address, c
 func (p *PostgresRepo) ListTransactions(ctx context.Context, args model.ListTransactionsParams) ([]model.Transaction, error) {
 	var trans []model.Transaction
 	err := p.db.SelectContext(ctx, &trans, listTransactionStmt,
-		args.SearchTransactionBy.Address,
-		args.SearchTransactionBy.FromDate,
-		args.SearchTransactionBy.ToDate,
-		args.Pagination.Page,
-		args.Pagination.Items,
+		args.Address,
+		args.FromDate,
+		args.ToDate,
+		args.SortBy,
+		args.Page,
+		args.Items,
 	)
 	return trans, parseError(err)
 }

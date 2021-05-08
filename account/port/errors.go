@@ -8,20 +8,34 @@ import (
 )
 
 // ParseError return the error and the status code
-func parseError(err error) (int, error) {
-
+func parseError(err error) (int, string) {
 	switch err {
+
 	case service.ErrorInvalidRequestData:
-		// 400
-		return http.StatusBadRequest, service.ErrorInvalidRequestData
+		return http.StatusBadRequest, service.ErrorInvalidRequestData.Error()
+
+	case service.ErrorGetUser:
+		return http.StatusBadRequest, service.ErrorGetUser.Error()
+
+	case service.ErrorUserAccountNoActive:
+		return http.StatusForbidden, service.ErrorUserAccountNoActive.Error()
+
+	case service.ErrorCurrencyNotMatch:
+		return http.StatusForbidden, service.ErrorCurrencyNotMatch.Error()
+
+	case service.ErrorNotenoughMoney:
+		return http.StatusForbidden, service.ErrorNotenoughMoney.Error()
+
+	case service.ErrorCreateWallet:
+		return http.StatusForbidden, service.ErrorCreateWallet.Error()
+
 	case pgrepo.ErrorNotExists:
-		// 404
-		return http.StatusNotFound, pgrepo.ErrorNotExists
+		return http.StatusNotFound, pgrepo.ErrorNotExists.Error()
+
 	case pgrepo.ErrorAlreadyExists:
-		// 409
-		return http.StatusConflict, pgrepo.ErrorAlreadyExists
+		return http.StatusConflict, pgrepo.ErrorAlreadyExists.Error()
+
 	default:
-		// 500
-		return http.StatusInternalServerError, pgrepo.ErrorInternalError
+		return http.StatusInternalServerError, pgrepo.ErrorInternalError.Error()
 	}
 }

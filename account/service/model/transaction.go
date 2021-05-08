@@ -2,6 +2,8 @@ package model
 
 import (
 	"time"
+
+	"github.com/microcosm-cc/bluemonday"
 )
 
 type Transaction struct {
@@ -15,15 +17,23 @@ type Transaction struct {
 }
 
 type ListTransactionsParams struct {
-	Pagination          Pagination          `json:"pagination" query:"pagination"`
-	SearchTransactionBy SearchTransactionBy `json:"search_transaction_by" query:"search_transaction_by"`
-	UserID              int32               `json:"user" param:"user_id" validate:"required,gt=0"`
+	Address  string    `json:"address" query:"address" validate:"required"`
+	FromDate *Datetime `json:"from_date" query:"from_date" validate:"omitempty"`
+	ToDate   *Datetime `json:"to_date" query:"to_date" validate:"omitempty"`
+	SortBy   string    `json:"sort_by" query:"sort_by" validate:"omitempty,oneof=desc asc"`
+	Page     int32     `json:"page" query:"page"`
+	Items    int32     `json:"items" query:"items"`
 }
 
-type SearchTransactionBy struct {
-	Address  *string    `json:"address" query:"address" validate:"omitempty,uuid4"`
-	FromDate *time.Time `json:"from_date" query:"from_date" validate:"omitempty"`
-	ToDate   *time.Time `json:"to_date" query:"to_date" validate:"omitempty"`
+func (p *ListTransactionsParams) Sanitize(s *bluemonday.Policy) {
+	p.Address = s.Sanitize(p.Address)
+}
+
+func (p *ListTransactionsParams) NormalizeInput() {
+	p.Page, p.Items = Pagination(p.Page, p.Items)
+	if p.SortBy == "" {
+		p.SortBy = "desc"
+	}
 }
 
 type SendMoneyParams struct {

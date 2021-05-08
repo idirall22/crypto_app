@@ -25,12 +25,12 @@ func TestRegisterUser(t *testing.T) {
 			desc: "Fail, invalid email",
 			ctx:  context.Background(),
 			params: model.RegisterUserParams{
-				Email:     gofakeit.FirstName(),
-				FirstName: gofakeit.FirstName(),
-				LastName:  gofakeit.LastName(),
-				Password:  gofakeit.Password(true, true, true, false, false, 12),
-				IpAddress: gofakeit.IPv4Address(),
-				UserAgent: gofakeit.UserAgent(),
+				Email:         gofakeit.FirstName(),
+				FirstName:     gofakeit.FirstName(),
+				LastName:      gofakeit.LastName(),
+				Password:      gofakeit.Password(true, true, true, false, false, 12),
+				XXX_IpAddress: gofakeit.IPv4Address(),
+				XXX_UserAgent: gofakeit.UserAgent(),
 			},
 			mock: func(ctx context.Context) {},
 			compare: func(err error) {
@@ -41,12 +41,12 @@ func TestRegisterUser(t *testing.T) {
 			desc: "Success",
 			ctx:  context.Background(),
 			params: model.RegisterUserParams{
-				Email:     gofakeit.Email(),
-				FirstName: gofakeit.FirstName(),
-				LastName:  gofakeit.LastName(),
-				Password:  gofakeit.Password(true, true, true, false, false, 12),
-				IpAddress: gofakeit.IPv4Address(),
-				UserAgent: gofakeit.UserAgent(),
+				Email:         gofakeit.Email(),
+				FirstName:     gofakeit.FirstName(),
+				LastName:      gofakeit.LastName(),
+				Password:      gofakeit.Password(true, true, true, false, false, 12),
+				XXX_IpAddress: gofakeit.IPv4Address(),
+				XXX_UserAgent: gofakeit.UserAgent(),
 			},
 			mock: func(ctx context.Context) {
 				mockRepo.On("RegisterUser", ctx,
@@ -89,7 +89,13 @@ func TestLoginUser(t *testing.T) {
 				mockRepo.On("GetUser", ctx,
 					mock.MatchedBy(func(input model.GetUserParams) bool {
 						return true
-					})).Return(model.User{ID: 1, Role: "user", PasswordHash: passwordHash}, nil).Times(1)
+					})).Return(
+					model.User{
+						ID:           1,
+						Role:         "user",
+						PasswordHash: passwordHash,
+						IsActive:     true,
+					}, nil).Times(1)
 			},
 			compare: func(err error) {
 				require.NoError(t, err)

@@ -8,7 +8,6 @@ import (
 	pgrepo "github.com/idirall22/crypto_app/account/adapters/repository/postgres"
 	"github.com/idirall22/crypto_app/account/config"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 )
 
 var (
@@ -18,7 +17,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	cfg, err := config.LoadConfig("../../../../../")
+	cfg, err := config.LoadConfig("../../../../")
 	if err != nil {
 		panic(err)
 	}

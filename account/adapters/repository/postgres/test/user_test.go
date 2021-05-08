@@ -10,8 +10,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var defaultCurrencies = []string{"bitcoin", "ether"}
-
 func createUserForTest(t *testing.T) model.User {
 	ctx := context.Background()
 	params := model.RegisterUserParams{
@@ -19,12 +17,12 @@ func createUserForTest(t *testing.T) model.User {
 		FirstName:               gofakeit.FirstName(),
 		LastName:                gofakeit.LastName(),
 		Password:                gofakeit.Password(true, true, true, false, false, 12),
-		IpAddress:               gofakeit.IPv4Address(),
-		UserAgent:               gofakeit.UserAgent(),
+		XXX_IpAddress:           gofakeit.IPv4Address(),
+		XXX_UserAgent:           gofakeit.UserAgent(),
 		XXX_PasswordHash:        gofakeit.Password(true, true, true, false, false, 12),
 		XXX_IsActive:            false,
 		XXX_ConfirmationLink:    uuid.NewString(),
-		XXX_DefaultCurrency:     defaultCurrencies,
+		XXX_DefaultCurrency:     model.DefaultCurrencies,
 		XXX_DefaultWalletAmount: 100,
 		XXX_WalletAddresses:     []string{uuid.New().String(), uuid.New().String()},
 		XXX_DefaultRole:         "user",

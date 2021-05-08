@@ -57,7 +57,7 @@ func (p *PostgresRepo) RegisterUser(ctx context.Context, args model.RegisterUser
 		}
 
 		// create user metadata
-		_, err = tx.ExecContext(ctx, createUserMetadataStmt, user.ID, args.IpAddress, args.UserAgent)
+		_, err = tx.ExecContext(ctx, createUserMetadataStmt, user.ID, args.XXX_IpAddress, args.XXX_UserAgent)
 		if err != nil {
 			return err
 		}

@@ -15,12 +15,15 @@ func (p *EchoPort) RegisterUser(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, service.ErrorInvalidRequestData.Error())
 	}
 
+	params.XXX_IpAddress = c.Request().RemoteAddr
+	params.XXX_UserAgent = c.Request().UserAgent()
+
 	err = p.service.RegisterUser(c.Request().Context(), params)
 	if err != nil {
 		return echo.NewHTTPError(parseError(err))
 	}
 
-	return c.JSON(http.StatusOK, nil)
+	return c.JSON(http.StatusCreated, nil)
 }
 
 func (p *EchoPort) LoginUser(c echo.Context) error {
@@ -50,7 +53,7 @@ func (p *EchoPort) ActivateAccount(c echo.Context) error {
 		return echo.NewHTTPError(parseError(err))
 	}
 
-	return c.JSON(http.StatusOK, nil)
+	return c.JSON(http.StatusNoContent, nil)
 }
 
 func (p *EchoPort) GetUser(c echo.Context) error {

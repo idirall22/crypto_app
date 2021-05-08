@@ -10,7 +10,7 @@ import (
 )
 
 func sendMoneyForTest(t *testing.T) (model.Wallet, model.Wallet) {
-	currency := gofakeit.RandomString(defaultCurrencies)
+	currency := gofakeit.RandomString(model.DefaultCurrencies)
 	senderWallet := getWalletAddressByCurrency(listWalletsForTest(t), currency)
 	recipientWallet := getWalletAddressByCurrency(listWalletsForTest(t), currency)
 
@@ -59,14 +59,10 @@ func TestListTransactions(t *testing.T) {
 	sender, _ := sendMoneyForTest(t)
 
 	params := model.ListTransactionsParams{
-		Pagination: model.Pagination{
-			Page:  0,
-			Items: 10,
-		},
-		SearchTransactionBy: model.SearchTransactionBy{
-			Address: &sender.Address,
-		},
-		UserID: sender.UserID,
+		Address: sender.Address,
+		Page:    0,
+		Items:   10,
+		SortBy:  "desc",
 	}
 
 	res, err := repoTest.ListTransactions(ctx, params)

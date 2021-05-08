@@ -35,5 +35,5 @@ func (p *EchoPort) SendMoney(c echo.Context) error {
 		return echo.NewHTTPError(parseError(err))
 	}
 
-	return c.JSON(http.StatusOK, transaction)
+	return c.JSON(http.StatusCreated, transaction)
 }

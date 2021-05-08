@@ -23,8 +23,8 @@ type RegisterUserParams struct {
 	FirstName               string   `json:"first_name" validate:"required,alphaunicode"`
 	LastName                string   `json:"last_name" validate:"required,alphaunicode"`
 	Password                string   `json:"password" validate:"required,min=8,max=50"`
-	IpAddress               string   `json:"ip_address" validate:"required,ip"`
-	UserAgent               string   `json:"user_agent" validate:"required"`
+	XXX_IpAddress           string   `json:"-"`
+	XXX_UserAgent           string   `json:"-"`
 	XXX_PasswordHash        string   `json:"-"`
 	XXX_IsActive            bool     `json:"-"`
 	XXX_ConfirmationLink    string   `json:"-"`
@@ -39,8 +39,8 @@ func (u *RegisterUserParams) Sanitize(s *bluemonday.Policy) {
 	u.LastName = s.Sanitize(u.LastName)
 	u.Email = s.Sanitize(u.Email)
 	u.Password = s.Sanitize(u.Password)
-	u.IpAddress = s.Sanitize(u.IpAddress)
-	u.UserAgent = s.Sanitize(u.UserAgent)
+	u.XXX_IpAddress = s.Sanitize(u.XXX_IpAddress)
+	u.XXX_UserAgent = s.Sanitize(u.XXX_UserAgent)
 }
 
 type LoginUserParams struct {

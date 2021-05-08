@@ -22,4 +22,7 @@ var (
 
 	// ErrorNotenoughMoney you don't have enough money to make the transaction
 	ErrorNotenoughMoney = errors.New("you don't have enough money to make the transaction")
+
+	// ErrorCreateWallet error to create a wallet
+	ErrorCreateWallet = errors.New("error to create a wallet")
 )

@@ -28,10 +28,20 @@ func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUs
 	args.XXX_DefaultRole = "user"
 	args.XXX_DefaultWalletAmount = 100
 	args.XXX_PasswordHash = passwordHash
-	args.XXX_WalletAddresses = []string{uuid.NewString(), uuid.NewString()}
+
+	for range model.DefaultCurrencies {
+		_, pub, err := utils.GenerateWallet()
+		if err != nil {
+			return ErrorCreateWallet
+		}
+		args.XXX_WalletAddresses = append(args.XXX_WalletAddresses, pub)
+	}
 
 	_, err = s.repo.RegisterUser(ctx, args)
-
+	if err != nil {
+		s.logger.Warn(err.Error())
+		return err
+	}
 	return err
 }
 

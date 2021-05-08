@@ -10,16 +10,7 @@ import (
 func (s *ServiceAccount) ListTransactions(ctx context.Context, args model.ListTransactionsParams) ([]model.Transaction, error) {
 	var trans []model.Transaction
 
-	payload, err := auth.GetPayloadFromContext(ctx)
-	if err != nil {
-		return trans, err
-	}
-
-	if payload.Role != "admin" {
-		args.UserID = payload.UserID
-	}
-
-	err = s.validator.Struct(args)
+	err := s.validator.Struct(args)
 	if err != nil {
 		return trans, ErrorInvalidRequestData
 	}

@@ -7,9 +7,9 @@ rsa-genrate:
 
 # mock services
 mocks:
-	mockery --dir account/adapters/repository/ --name IRepository --output account/adapters/repository/postgres/mock --exported
-	mockery --dir account/adapters/email/ --name IEmail --output account/adapters/email/mock --exported
-	mockery --dir account/service/ --name IService --output account/service/mock --exported
+	mockery --dir adapters/repository/ --name IRepository --output adapters/repository/postgres/mock --exported
+	mockery --dir adapters/email/ --name IEmail --output adapters/email/mock --exported
+	mockery --dir service/ --name IService --output service/mock --exported
 
 # start a postgresql docker container used to run adapters tests.
 up:
@@ -33,16 +33,22 @@ connect:
 
 # migrate the sql code to the database
 migrate: dropdb createdb
-	migrate -path account/migrations/ -database "postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/$(DB_NAME)?sslmode=disable" -verbose up
+	migrate -path migrations/ -database "postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/$(DB_NAME)?sslmode=disable" -verbose up
 
 test_adapters: dropdb createdb migrate
-	go test -v -cover -count=1 ./account/adapters/repository/postgres/test/...
+	go test -v -cover -count=1 ./adapters/repository/postgres/test/...
 
 test_service:
-	go test -v -cover -count=1 ./account/service/test/...
+	go test -v -cover -count=1 ./service/test/...
 
-test_port: dropdb createdb migrate
-	go test -v -cover -count=1 ./ports/http/test/...
+test_port:
+	go test -v -cover -count=1 ./port/test/...
 
+run:
+	go run cmd/server/main.go
+
+build:
+	docker build -t account:latest .
+	
 .PHONY: up down createdb dropdb connect migrate sqlc test_services test_adapters
 

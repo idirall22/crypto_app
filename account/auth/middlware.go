@@ -24,13 +24,12 @@ func (g *JWTGenerator) JwtMiddleware() echo.MiddlewareFunc {
 
 			c.Set("payload", payload)
 
-			return echo.NewHTTPError(http.StatusForbidden, ErrorAuthForbidden.Error())
+			return next(c)
 		}
 	}
 }
 
 func (g JWTGenerator) getTokenAuthHeader(c echo.Context) (string, error) {
-
 	auth := c.Request().Header.Get("Authorization")
 	if auth == "" {
 		return "", ErrorAuthNotFound

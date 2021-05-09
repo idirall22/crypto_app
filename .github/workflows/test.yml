@@ -2,9 +2,9 @@ name: Run unit tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
 
@@ -43,8 +43,9 @@ jobs:
         sudo mv migrate.linux-amd64 /usr/bin/migrate
         which migrate
     - name: Run migrations
-      run: make migrateup
-
+      run: make migrate
+      working-directory: account
+      
     - name: Test adapters
       run: make test_adapters
       working-directory: account

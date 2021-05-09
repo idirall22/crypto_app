@@ -1,4 +1,3 @@
-include .env
 include account.env
 
 DOCKER_POSTGRES_NAME=crypto

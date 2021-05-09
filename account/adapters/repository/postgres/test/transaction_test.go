@@ -21,7 +21,7 @@ func sendMoneyForTest(t *testing.T) (model.Wallet, model.Wallet) {
 		Currency:         currency,
 		SenderAddress:    senderWallet.Address,
 		RecipientAddress: recipientWallet.Address,
-		XXX_Commission:   gofakeit.Price(0.01, 1),
+		XXX_Commission:   float64(gofakeit.Price(0.01, 1)),
 		XXX_UserID:       senderWallet.UserID,
 	}
 	res, err := repoTest.SendMoney(ctx, params)

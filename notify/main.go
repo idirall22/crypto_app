@@ -6,9 +6,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/idirall22/crypto_app/auth"
 	"github.com/idirall22/crypto_app/notify/adapters/email/gmail"
 	amqpeventStore "github.com/idirall22/crypto_app/notify/adapters/event/amqp"
-	"github.com/idirall22/crypto_app/notify/auth"
 	"github.com/idirall22/crypto_app/notify/config"
 	"github.com/idirall22/crypto_app/notify/port"
 	"github.com/idirall22/crypto_app/notify/service"

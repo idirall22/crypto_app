@@ -8,14 +8,16 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
+	"github.com/streadway/amqp"
 	"go.uber.org/zap"
 	"gopkg.in/tylerb/graceful.v1"
 
+	amqpeventStore "github.com/idirall22/crypto_app/account/adapters/event/amqp"
 	pgrepo "github.com/idirall22/crypto_app/account/adapters/repository/postgres"
-	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/idirall22/crypto_app/account/config"
 	"github.com/idirall22/crypto_app/account/port"
 	"github.com/idirall22/crypto_app/account/service"
+	"github.com/idirall22/crypto_app/auth"
 )
 
 func main() {
@@ -26,17 +28,23 @@ func main() {
 		log.Fatal(fmt.Sprintf("Error to create a logger: %v", err))
 	}
 
-	db := connectToDatabase(cfg)
-	defer db.Close()
+	// Connect to database
+	dbConn := connectToDatabase(cfg)
+	defer dbConn.Close()
+	repo := pgrepo.NewPostgresRepo(dbConn)
 
-	repo := pgrepo.NewPostgresRepo(db)
+	// Connect to event store
+	esConn := connectToEventStore(cfg)
+	defer esConn.Close()
+	event := amqpeventStore.NewAmqpEventStore(esConn)
 
-	jwtGen, err := auth.NewJWTGenerator(cfg)
+	// create jwt manager
+	jwtGen, err := auth.NewJWTGenerator(cfg.JwtPrivatePath, cfg.JwtPublicPath)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Error to create a JWT generator: %v", err))
 	}
 
-	service := service.NewServiceAccount(logger, repo, jwtGen)
+	service := service.NewServiceAccount(logger, repo, event, jwtGen)
 
 	e := echo.New()
 	echoPort := port.NewEchoPort(cfg, service, e)
@@ -62,4 +70,19 @@ func connectToDatabase(cfg *config.Config) *sqlx.DB {
 		panic(err)
 	}
 	return db
+}
+
+func connectToEventStore(cfg *config.Config) *amqp.Connection {
+	conn, err := amqp.Dial(
+		fmt.Sprintf("amqp://%s:%s@%s:%s/",
+			cfg.RabbitMQUser,
+			cfg.RabbitMQPassword,
+			cfg.RabbitMQHost,
+			cfg.RabbitMQPort,
+		),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return conn
 }

@@ -1,3 +1,4 @@
+include .env
 include account.env
 
 DOCKER_POSTGRES_NAME=crypto
@@ -8,14 +9,14 @@ rsa-genrate:
 # mock services
 mocks:
 	mockery --dir adapters/repository/ --name IRepository --output adapters/repository/postgres/mock --exported
-	mockery --dir adapters/email/ --name IEmail --output adapters/email/mock --exported
+	mockery --dir adapters/event --name IEventStore --output adapters/event/amqp/mock --exported
 	mockery --dir service/ --name IService --output service/mock --exported
 
-# start a postgresql docker container used to run adapters tests.
+# start a postgresql container
 up:
 	docker run -d -p ${DB_PORT}:${DB_PORT} -e POSTGRES_PASSWORD=${DB_PASSWORD} --name ${DOCKER_POSTGRES_NAME} postgres:13-alpine
 
-# delete the postgresql docker container used to run adapters tests.
+# delete the postgresql docker
 down:
 	docker rm -f ${DOCKER_POSTGRES_NAME}
 
@@ -26,6 +27,19 @@ createdb:
 # drop database
 dropdb:
 	docker exec -it ${DOCKER_POSTGRES_NAME} sh -c "dropdb -U postgres --if-exists $(DB_NAME)"
+
+# start rabbitmq container
+rabbit-up:
+	docker run \
+	--hostname crypto-rabbit \
+	-e RABBITMQ_DEFAULT_USER=${RABBITMQ_USER} \
+	-e RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD} \
+	-p 5672:5672 -p 15672:15672 \
+	--name crypto-rabbit rabbitmq:3
+
+# delete rabbitmq container
+rabbit-down:
+	docker rm -f crypto-rabbit
 
 # connect to database
 connect:

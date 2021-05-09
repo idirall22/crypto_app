@@ -13,32 +13,40 @@ type RepositoryConfig interface {
 }
 
 type Config struct {
-	Domain         string `mapstructure:"DOMAIN"`
-	Port           string `mapstructure:"PORT"`
-	BaseURL        string `mapstructure:"BASE_URL"`
-	DbHost         string `mapstructure:"DB_HOST"`
-	DbDriver       string `mapstructure:"DB_DRIVER"`
-	DbUser         string `mapstructure:"DB_USER"`
-	DbPassword     string `mapstructure:"DB_PASSWORD"`
-	DbName         string `mapstructure:"DB_NAME"`
-	DbPort         string `mapstructure:"DB_PORT"`
-	JwtPrivatePath string `mapstructure:"JWT_PRIVATE_PATH"`
-	JwtPublicPath  string `mapstructure:"JWT_PPUBLIC_PATH"`
+	Domain           string `mapstructure:"DOMAIN"`
+	Port             string `mapstructure:"PORT"`
+	BaseURL          string `mapstructure:"BASE_URL"`
+	DbHost           string `mapstructure:"DB_HOST"`
+	DbDriver         string `mapstructure:"DB_DRIVER"`
+	DbUser           string `mapstructure:"DB_USER"`
+	DbPassword       string `mapstructure:"DB_PASSWORD"`
+	DbName           string `mapstructure:"DB_NAME"`
+	DbPort           string `mapstructure:"DB_PORT"`
+	JwtPrivatePath   string `mapstructure:"JWT_PRIVATE_PATH"`
+	JwtPublicPath    string `mapstructure:"JWT_PPUBLIC_PATH"`
+	RabbitMQUser     string `mapstructure:"RABBITMQ_USER"`
+	RabbitMQHost     string `mapstructure:"RABBITMQ_HOST"`
+	RabbitMQPassword string `mapstructure:"RABBITMQ_PASSWORD"`
+	RabbitMQPort     string `mapstructure:"RABBITMQ_PORT"`
 }
 
 func New() *Config {
 	return &Config{
-		Domain:         os.Getenv("DOMAIN"),
-		Port:           os.Getenv("PORT"),
-		BaseURL:        os.Getenv("BASE_URL"),
-		DbHost:         os.Getenv("DB_HOST"),
-		DbDriver:       os.Getenv("DB_DRIVER"),
-		DbUser:         os.Getenv("DB_USER"),
-		DbPassword:     os.Getenv("DB_PASSWORD"),
-		DbName:         os.Getenv("DB_NAME"),
-		DbPort:         os.Getenv("DB_PORT"),
-		JwtPrivatePath: os.Getenv("JWT_PRIVATE_PATH"),
-		JwtPublicPath:  os.Getenv("JWT_PUBLIC_PATH"),
+		Domain:           os.Getenv("DOMAIN"),
+		Port:             os.Getenv("PORT"),
+		BaseURL:          os.Getenv("BASE_URL"),
+		DbHost:           os.Getenv("DB_HOST"),
+		DbDriver:         os.Getenv("DB_DRIVER"),
+		DbUser:           os.Getenv("DB_USER"),
+		DbPassword:       os.Getenv("DB_PASSWORD"),
+		DbName:           os.Getenv("DB_NAME"),
+		DbPort:           os.Getenv("DB_PORT"),
+		JwtPrivatePath:   os.Getenv("JWT_PRIVATE_PATH"),
+		JwtPublicPath:    os.Getenv("JWT_PUBLIC_PATH"),
+		RabbitMQUser:     os.Getenv("RABBITMQ_USER"),
+		RabbitMQHost:     os.Getenv("RABBITMQ_HOST"),
+		RabbitMQPassword: os.Getenv("RABBITMQ_PASSWORD"),
+		RabbitMQPort:     os.Getenv("RABBITMQ_PORT"),
 	}
 }
 

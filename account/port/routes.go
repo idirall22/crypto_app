@@ -1,7 +1,7 @@
 package port
 
 import (
-	"github.com/idirall22/crypto_app/account/auth"
+	"github.com/idirall22/crypto_app/auth"
 )
 
 func (p *EchoPort) InitRoutes(jwtGen auth.TokenGenerator) {

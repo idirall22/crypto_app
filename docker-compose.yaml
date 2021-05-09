@@ -1,15 +1,40 @@
 version: "3.3"
 services: 
+  rabbitmq:
+    image: rabbitmq:3
+    hostname: rabbitmq
+    environment: 
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
   postgres:
     image: postgres:13-alpine
     environment: 
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=cryptoapp
+  notify:
+    build:
+      context: .
+      dockerfile: notify/Dockerfile
+    ports:
+      - "8081:8081"
+    environment: 
+      - JWT_PRIVATE_PATH=rsa/key.pem
+      - JWT_PUBLIC_PATH=rsa/public.pem
+      - PORT=8081
+      - RABBITMQ_USER=user
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_PORT=5672
+    depends_on: 
+      - rabbitmq  
+    entrypoint: ["/notify/wait_for.sh", "rabbitmq:5672", "--", "/notify/start.sh"]
+    command: ["/notify/notify"]
+
   account:
     build:
-      context: account/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: account/Dockerfile
     ports:
       - "8080:8080"    
     environment: 
@@ -22,7 +47,12 @@ services:
       - JWT_PRIVATE_PATH=rsa/key.pem
       - JWT_PUBLIC_PATH=rsa/public.pem
       - PORT=8080
+      - RABBITMQ_USER=user
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_PORT=5672
     depends_on: 
       - postgres
-    entrypoint: ["/account/wait_for.sh", "postgres:5432", "--", "/account/start.sh"]
+      - rabbitmq
+    entrypoint: ["/account/wait_for.sh", "postgres:5432", "rabbitmq:5672", "--", "/account/start.sh"]
     command: ["/account/account"]

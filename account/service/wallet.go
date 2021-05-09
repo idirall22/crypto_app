@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/idirall22/crypto_app/account/service/model"
+	"github.com/idirall22/crypto_app/auth"
 )
 
 func (s *ServiceAccount) ListWallets(ctx context.Context, args model.ListWalletsParams) ([]model.Wallet, error) {

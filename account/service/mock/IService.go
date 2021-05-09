@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	auth "github.com/idirall22/crypto_app/account/auth"
+	auth "github.com/idirall22/crypto_app/auth"
 
 	mock "github.com/stretchr/testify/mock"
 

@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/idirall22/crypto_app/account/config"
 	"github.com/idirall22/crypto_app/account/port"
 	mockservice "github.com/idirall22/crypto_app/account/service/mock"
+	"github.com/idirall22/crypto_app/auth"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/require"
@@ -33,7 +33,7 @@ func TestMain(m *testing.M) {
 	cfg.JwtPrivatePath = "../../../rsa/key.pem"
 	cfg.JwtPublicPath = "../../../rsa/public.pem"
 
-	genJWT, err := auth.NewJWTGenerator(cfg)
+	genJWT, err := auth.NewJWTGenerator(cfg.JwtPrivatePath, cfg.JwtPublicPath)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -2,9 +2,10 @@ package service
 
 import (
 	"context"
+	"fmt"
 
-	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/idirall22/crypto_app/account/service/model"
+	"github.com/idirall22/crypto_app/auth"
 )
 
 func (s *ServiceAccount) ListTransactions(ctx context.Context, args model.ListTransactionsParams) ([]model.Transaction, error) {
@@ -47,7 +48,20 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 		return tran, err
 	}
 
-	return s.repo.SendMoney(ctx, args)
+	tran, err = s.repo.SendMoney(ctx, args)
+	if err != nil {
+		return tran, err
+	}
+
+	s.notificationsChan <- model.NotificationEvent{
+		UserID:    wallet.UserID,
+		Type:      "transaction",
+		Title:     "sent money",
+		Content:   fmt.Sprintf("sent %f %s from %s to %s", tran.Amount, tran.Currency, tran.SenderAddress, tran.RecipientAddress),
+		CreatedAt: tran.CreatedAt,
+	}
+
+	return tran, nil
 }
 
 func checkIfCanSendMoney(w model.Wallet, t model.SendMoneyParams) error {

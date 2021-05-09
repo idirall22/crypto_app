@@ -2,11 +2,12 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/idirall22/crypto_app/account/auth"
 	"github.com/idirall22/crypto_app/account/service/model"
 	"github.com/idirall22/crypto_app/account/utils"
+	"github.com/idirall22/crypto_app/auth"
 )
 
 func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUserParams) error {
@@ -67,6 +68,14 @@ func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserPara
 	err = utils.CheckPassword(args.Password, user.PasswordHash)
 	if err != nil {
 		return tokens, ErrorGetUser
+	}
+
+	// publish email to event store
+	s.emailChan <- model.EmailEvent{
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		Subject:   "Sign up",
+		Body:      fmt.Sprintf("Thank you for register\nPlease confirm you email using this confirmation token: %s", user.ConfirmationLink),
 	}
 
 	return s.token.CreatePairToken(user.ID, user.Role)

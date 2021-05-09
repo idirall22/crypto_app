@@ -52,7 +52,7 @@ func (c Config) RepositoryConfig() (string, string) {
 // LoadConfig load env file for test
 func LoadConfig(path string) (config *Config, err error) {
 	viper.AddConfigPath(path)
-	viper.SetConfigName("example")
+	viper.SetConfigName("account")
 	viper.SetConfigType("env")
 
 	viper.AutomaticEnv()

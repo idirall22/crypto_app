@@ -1,0 +1,28 @@
+version: "3.3"
+services: 
+  postgres:
+    image: postgres:13-alpine
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=cryptoapp
+  account:
+    build:
+      context: account/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"    
+    environment: 
+      - DB_HOST=postgres
+      - DB_DRIVER=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=cryptoapp
+      - DB_PORT=5432
+      - JWT_PRIVATE_PATH=rsa/key.pem
+      - JWT_PUBLIC_PATH=rsa/public.pem
+      - PORT=8080
+    depends_on: 
+      - postgres
+    entrypoint: ["/account/wait_for.sh", "postgres:5432", "--", "/account/start.sh"]
+    command: ["/account/account"]

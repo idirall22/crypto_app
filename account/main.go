@@ -20,7 +20,6 @@ import (
 
 func main() {
 	cfg := config.New()
-	fmt.Println(cfg)
 
 	logger, err := zap.NewProduction()
 	if err != nil {

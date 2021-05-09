@@ -1,4 +1,4 @@
-include example.env
+include account.env
 
 DOCKER_POSTGRES_NAME=crypto
 
@@ -49,6 +49,7 @@ run:
 
 build:
 	docker build -t account:latest .
+	docker rmi -f $(docker images -f "dangling=true" -q)
 	
 .PHONY: up down createdb dropdb connect migrate sqlc test_services test_adapters
 

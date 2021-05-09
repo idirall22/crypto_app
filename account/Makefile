@@ -1,9 +1,7 @@
 include account.env
 
-DOCKER_POSTGRES_NAME=crypto
+DOCKER_POSTGRES_NAME=cryptoapp
 
-rsa-genrate:
-	openssl genrsa -out rsa/key.pem 2048 && openssl rsa -in rsa/key.pem -pubout -out rsa/public.pem
 
 # mock services
 mocks:
@@ -25,7 +23,7 @@ createdb:
 
 # drop database
 dropdb:
-	docker exec -it ${DOCKER_POSTGRES_NAME} sh -c "dropdb -U postgres --if-exists $(DB_NAME)"
+	docker exec -it ${DOCKER_POSTGRES_NAME} sh -c "dropdb -U postgres --if-exists $(DB_NAME)" || true
 
 # start rabbitmq container
 rabbit-up:
@@ -45,7 +43,7 @@ connect:
 	docker exec -it ${DOCKER_POSTGRES_NAME} sh -c "psql -U postgres -d $(DB_NAME) copy workflow_facilitator_types FROM '/workflow_facilitator_types.csv' DELIMITER ',' CSV"
 
 # migrate the sql code to the database
-migrate: dropdb createdb
+migrate:
 	migrate -path migrations/ -database "postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/$(DB_NAME)?sslmode=disable" -verbose up
 
 test_adapters: dropdb createdb migrate
@@ -59,10 +57,6 @@ test_port:
 
 run:
 	go run cmd/server/main.go
-
-build:
-	docker build -t account:latest .
-	docker rmi -f $(docker images -f "dangling=true" -q)
 	
 .PHONY: up down createdb dropdb connect migrate sqlc test_services test_adapters
 

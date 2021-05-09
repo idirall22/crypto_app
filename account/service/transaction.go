@@ -52,7 +52,6 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 	if err != nil {
 		return tran, err
 	}
-
 	s.notificationsChan <- model.NotificationEvent{
 		UserID:    wallet.UserID,
 		Type:      "transaction",

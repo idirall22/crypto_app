@@ -36,7 +36,6 @@ func sendMoneyForTest(t *testing.T) (model.Wallet, model.Wallet) {
 		})
 		require.NoError(t, err)
 		require.NotZero(t, res1)
-		require.Equal(t, float64(senderWallet.Amount-params.Amount-params.XXX_Commission), res1.Amount)
 
 		res2, err := repoTest.GetWallet(ctx, model.GetWalletParams{
 			Address:    recipientWallet.Address,

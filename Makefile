@@ -1,3 +1,6 @@
+rsa-genrate:
+	openssl genrsa -out rsa/key.pem 2048 && openssl rsa -in rsa/key.pem -pubout -out rsa/public.pem
+
 rabbit-up:
 	docker run \
 	--hostname crypto-rabbit \

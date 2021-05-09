@@ -18,7 +18,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: crypto_app
+          POSTGRES_DB: cryptoapp
         ports:
           - 5432:5432
         options: >-
@@ -45,7 +45,7 @@ jobs:
     - name: Run migrations
       run: make migrate
       working-directory: account
-      
+
     - name: Test adapters
       run: make test_adapters
       working-directory: account

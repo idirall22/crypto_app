@@ -33,12 +33,14 @@ func NewServiceAccount(
 	validator := validator.New()
 	sanitizer := bluemonday.UGCPolicy()
 	return &ServiceAccount{
-		logger:     logger,
-		repo:       repo,
-		eventStore: eventStore,
-		token:      token,
-		validator:  validator,
-		sanitizer:  sanitizer,
+		logger:            logger,
+		repo:              repo,
+		eventStore:        eventStore,
+		token:             token,
+		validator:         validator,
+		sanitizer:         sanitizer,
+		notificationsChan: make(chan model.NotificationEvent, 1024),
+		emailChan:         make(chan model.EmailEvent, 1024),
 	}
 }
 

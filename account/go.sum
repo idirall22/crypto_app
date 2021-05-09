@@ -228,8 +228,11 @@ github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpO
 github.com/huin/goupnp v1.0.1-0.20210310174557-0ca763054c88/go.mod h1:nNs7wvRfN1eKaMknBydLNQU6146XQim8t4h+q90biWo=
 github.com/huin/goutil v0.0.0-20170803182201-1ca381bf3150/go.mod h1:PpLOETDnJ0o3iZrZfqZzyLl6l7F3c6L1oWn7OICBi6o=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
+github.com/idirall22/crypto_app v0.0.0-20210509165213-88efef28f7f4 h1:0k5Gj1F5MASLQCTqcRuOAKp24BFUpFKJONGMGmow1oY=
 github.com/idirall22/crypto_app/auth v0.0.0-20210509084212-a4e9387e77f8 h1:jSx7/gS+Su48Yb+BoGeXN6ACQJqOScuV9y+U9SFvWuc=
 github.com/idirall22/crypto_app/auth v0.0.0-20210509084212-a4e9387e77f8/go.mod h1:Bda04G431uRbZGzt3QRz+GFJJJlwTO8k2TPPUASLmh0=
+github.com/idirall22/crypto_app/notify v0.0.0-20210509165213-88efef28f7f4 h1:SdOUrtD1OFF46IkwQIuVE+927YMH7rUCRVs1C2/BbZs=
+github.com/idirall22/crypto_app/notify v0.0.0-20210509165213-88efef28f7f4/go.mod h1:5tvOFAZBlKPmRCa7Lzm1njdoXRrhwox6eGeIj2BASeY=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/influxdata/flux v0.65.1/go.mod h1:J754/zds0vvpfwuq7Gc2wRdVwEodfpCFM7mYlOw2LqY=
 github.com/influxdata/influxdb v1.8.3/go.mod h1:JugdFhsvvI8gadxOI6noqNeeBHvWNTbfYGtiAn+2jhI=

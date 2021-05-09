@@ -9,6 +9,7 @@ require (
 	github.com/go-playground/validator/v10 v10.6.0
 	github.com/google/uuid v1.2.0
 	github.com/idirall22/crypto_app/auth v0.0.0-20210509084212-a4e9387e77f8
+	github.com/idirall22/crypto_app/notify v0.0.0-20210509165213-88efef28f7f4
 	github.com/jmoiron/sqlx v1.3.3
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/lib/pq v1.10.1

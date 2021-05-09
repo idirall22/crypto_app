@@ -22,8 +22,7 @@ func (g *JWTGenerator) JwtMiddleware() echo.MiddlewareFunc {
 				return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 			}
 
-			c.Set("payload", payload)
-
+			c.Set(PKey, payload)
 			return next(c)
 		}
 	}

@@ -6,10 +6,8 @@ import (
 	"time"
 )
 
-type PayloadKey string
-
 const (
-	PKey PayloadKey = "payload"
+	PKey string = "payload"
 
 	// DefaultTokenDuration the duration for a token is 15min
 	DefaultTokenDuration = time.Minute * 15

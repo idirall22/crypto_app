@@ -46,7 +46,7 @@ connect:
 migrate:
 	migrate -path migrations/ -database "postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/$(DB_NAME)?sslmode=disable" -verbose up
 
-test_adapters: dropdb createdb migrate
+test_adapters:
 	go test -v -cover -count=1 ./adapters/repository/postgres/test/...
 
 test_service:

@@ -18,6 +18,7 @@ func TestContextPayload(t *testing.T) {
 	token, err := m.CreateToken(1, "user")
 	require.NoError(t, err)
 
+	fmt.Println(token)
 	engine := echo.New()
 	engine.GET("/", func(c echo.Context) error {
 		payload, err := auth.GetPayloadFromContext(auth.Context(c))

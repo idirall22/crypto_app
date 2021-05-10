@@ -11,6 +11,10 @@ import (
 func (s *ServiceAccount) ListTransactions(ctx context.Context, args model.ListTransactionsParams) ([]model.Transaction, error) {
 	var trans []model.Transaction
 
+	args.Sanitize(s.sanitizer)
+
+	args.Page, args.Items = model.Pagination(args.Page, args.Items)
+
 	err := s.validator.Struct(args)
 	if err != nil {
 		return trans, ErrorInvalidRequestData
@@ -37,9 +41,9 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 		Address: args.SenderAddress,
 	})
 	if err != nil {
+		fmt.Println("/*/*/*/*/*/*/*/*/")
 		return tran, err
 	}
-
 	args.XXX_Commission = 0.01
 	args.XXX_UserID = payload.UserID
 

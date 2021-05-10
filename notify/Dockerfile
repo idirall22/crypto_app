@@ -18,8 +18,6 @@ COPY --from=builder /notify/notify.env .
 COPY --from=builder /notify/start.sh .
 COPY --from=builder /notify/wait_for.sh .
 
-RUN ls
-
 EXPOSE 8081
 
 CMD ["/notify/notify"]

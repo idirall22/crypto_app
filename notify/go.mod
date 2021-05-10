@@ -3,9 +3,10 @@ module github.com/idirall22/crypto_app/notify
 go 1.14
 
 require (
+	github.com/google/martian v2.1.0+incompatible
 	github.com/gorilla/websocket v1.4.2
-	github.com/idirall22/crypto_app/auth v0.0.0-20210509084212-a4e9387e77f8
-	github.com/labstack/echo/v4 v4.2.2
+	github.com/idirall22/crypto_app/auth v0.0.0-20210510110047-ba74d9efb255
+	github.com/labstack/echo/v4 v4.3.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.7.0 // indirect

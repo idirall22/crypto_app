@@ -4,8 +4,8 @@ rsa-genrate:
 rabbit-up:
 	docker run \
 	--hostname crypto-rabbit \
-	-e RABBITMQ_DEFAULT_USER=${RABBITMQ_USER} \
-	-e RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD} \
+	-e RABBITMQ_DEFAULT_USER=user \
+	-e RABBITMQ_DEFAULT_PASS=password \
 	-p 5672:5672 -p 15672:15672 \
 	--name crypto-rabbit rabbitmq:3
 
@@ -13,9 +13,10 @@ rabbit-down:
 	docker rm -f crypto-rabbit
 
 build:
-	docker-compose up --build
+	docker-compose build
 up:
-	docker-compose up -d
+	echo ${GMAIL_PASSWORD}
+	GMAIL_PASSWORD=${GMAIL_PASSWORD} docker-compose up
 down:
 	docker-compose down
 

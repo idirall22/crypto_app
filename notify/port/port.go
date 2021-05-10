@@ -1,10 +1,10 @@
 package port
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/websocket"
+	"github.com/idirall22/crypto_app/auth"
 	"github.com/idirall22/crypto_app/notify/config"
 	"github.com/idirall22/crypto_app/notify/service"
 	"github.com/labstack/echo/v4"
@@ -41,7 +41,7 @@ func (p *EchoPort) Notification(c echo.Context) error {
 	}
 	defer conn.Close()
 	// Subscribe user
-	notifChan, err := p.service.Subscribe(c.Request().Context(), conn)
+	notifChan, err := p.service.Subscribe(auth.Context(c), conn)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusUpgradeRequired, "error to subscribe")
 	}
@@ -50,7 +50,6 @@ func (p *EchoPort) Notification(c echo.Context) error {
 	return func() error {
 		for {
 			err = conn.WriteJSON(<-notifChan)
-			fmt.Println("*********---------------****************")
 			if err != nil {
 				return err
 			}

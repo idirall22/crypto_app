@@ -5,6 +5,7 @@ import (
 
 	"github.com/idirall22/crypto_app/account/service"
 	"github.com/idirall22/crypto_app/account/service/model"
+	"github.com/idirall22/crypto_app/auth"
 	"github.com/labstack/echo/v4"
 )
 
@@ -15,11 +16,10 @@ func (p *EchoPort) ListTransactions(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, service.ErrorInvalidRequestData.Error())
 	}
 
-	transactions, err := p.service.ListTransactions(c.Request().Context(), params)
+	transactions, err := p.service.ListTransactions(auth.Context(c), params)
 	if err != nil {
 		return echo.NewHTTPError(parseError(err))
 	}
-
 	return c.JSON(http.StatusOK, transactions)
 }
 
@@ -29,8 +29,7 @@ func (p *EchoPort) SendMoney(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, service.ErrorInvalidRequestData.Error())
 	}
-
-	transaction, err := p.service.SendMoney(c.Request().Context(), params)
+	transaction, err := p.service.SendMoney(auth.Context(c), params)
 	if err != nil {
 		return echo.NewHTTPError(parseError(err))
 	}

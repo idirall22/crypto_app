@@ -12,6 +12,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=cryptoapp
+
   notify:
     build:
       context: .
@@ -23,14 +24,20 @@ services:
       - JWT_PUBLIC_PATH=rsa/public.pem
       - PORT=8081
       - RABBITMQ_USER=user
-      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PASSWORD=password
+      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
+      - GMAIL_SMTP_PORT=587
+      - GMAIL_EMAIL=winwisely100@gmail.com
+      - GMAIL_PASSWORD=${GMAIL_PASSWORD}
+      - GMAIL_SMTP=smtp.gmail.com
     depends_on: 
-      - rabbitmq  
-    entrypoint: ["/notify/wait_for.sh", "rabbitmq:5672", "--", "/notify/start.sh"]
-    command: ["/notify/notify"]
+      - rabbitmq
+      - account
 
+    entrypoint: ["/notify/wait_for.sh", "rabbitmq:5672", "account:8080", "--", "/notify/start.sh"]
+    command: ["/notify/notify"]
+    
   account:
     build:
       context: .
@@ -48,8 +55,8 @@ services:
       - JWT_PUBLIC_PATH=rsa/public.pem
       - PORT=8080
       - RABBITMQ_USER=user
-      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PASSWORD=password
+      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
     depends_on: 
       - postgres

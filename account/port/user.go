@@ -23,7 +23,7 @@ func (p *EchoPort) RegisterUser(c echo.Context) error {
 		return echo.NewHTTPError(parseError(err))
 	}
 
-	return c.JSON(http.StatusCreated, nil)
+	return c.JSON(http.StatusCreated, `{"message":"success"}`)
 }
 
 func (p *EchoPort) LoginUser(c echo.Context) error {
@@ -52,8 +52,7 @@ func (p *EchoPort) ActivateAccount(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(parseError(err))
 	}
-
-	return c.JSON(http.StatusNoContent, nil)
+	return c.JSON(http.StatusNoContent, "success")
 }
 
 func (p *EchoPort) GetUser(c echo.Context) error {

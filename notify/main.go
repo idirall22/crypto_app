@@ -20,7 +20,9 @@ import (
 
 func main() {
 	cfg := config.New()
-
+	fmt.Println("---------------------------------------------")
+	fmt.Println(cfg)
+	fmt.Println("---------------------------------------------")
 	logger, err := zap.NewProduction()
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Error to create a logger: %v", err))
@@ -50,7 +52,7 @@ func main() {
 
 	logger.Info(fmt.Sprintf("Server started at %s", cfg.Port))
 
-	graceful.Run(":"+cfg.Port, 5*time.Second, e)
+	graceful.Run(":"+cfg.Port, 6*time.Second, e)
 }
 
 func connectEventStore(cfg *config.Config) *amqp.Connection {

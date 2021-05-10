@@ -16,7 +16,7 @@ type Config struct {
 	GMailSMTPPort    string `mapstructure:"GMAIL_SMTP_PORT"`
 	GMailSMTP        string `mapstructure:"GMAIL_SMTP"`
 	JwtPrivatePath   string `mapstructure:"JWT_PRIVATE_PATH"`
-	JwtPublicPath    string `mapstructure:"JWT_PPUBLIC_PATH"`
+	JwtPublicPath    string `mapstructure:"JWT_PUBLIC_PATH"`
 	RabbitMQUser     string `mapstructure:"RABBITMQ_USER"`
 	RabbitMQHost     string `mapstructure:"RABBITMQ_HOST"`
 	RabbitMQPassword string `mapstructure:"RABBITMQ_PASSWORD"`
@@ -31,7 +31,7 @@ func New() *Config {
 		GMailSMTPPort:    os.Getenv("GMAIL_SMTP_PORT"),
 		GMailSMTP:        os.Getenv("GMAIL_SMTP"),
 		JwtPrivatePath:   os.Getenv("JWT_PRIVATE_PATH"),
-		JwtPublicPath:    os.Getenv("JWT_PPUBLIC_PATH"),
+		JwtPublicPath:    os.Getenv("JWT_PUBLIC_PATH"),
 		RabbitMQUser:     os.Getenv("RABBITMQ_USER"),
 		RabbitMQHost:     os.Getenv("RABBITMQ_HOST"),
 		RabbitMQPassword: os.Getenv("RABBITMQ_PASSWORD"),

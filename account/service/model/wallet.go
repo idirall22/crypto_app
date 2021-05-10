@@ -13,6 +13,6 @@ type ListWalletsParams struct {
 }
 
 type GetWalletParams struct {
-	Address    string `json:"address" validate:"required,uuid4"`
+	Address    string `json:"address" validate:"required"`
 	XXX_UserID int32  `json:"-"`
 }

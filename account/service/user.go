@@ -38,11 +38,19 @@ func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUs
 		args.XXX_WalletAddresses = append(args.XXX_WalletAddresses, pub)
 	}
 
-	_, err = s.repo.RegisterUser(ctx, args)
+	user, err := s.repo.RegisterUser(ctx, args)
 	if err != nil {
 		s.logger.Warn(err.Error())
 		return err
 	}
+
+	s.emailChan <- model.EmailEvent{
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		Subject:   "register",
+		Body:      fmt.Sprintf("Confirmation link: %s", user.ConfirmationLink),
+	}
+
 	return err
 }
 
@@ -68,14 +76,6 @@ func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserPara
 	err = utils.CheckPassword(args.Password, user.PasswordHash)
 	if err != nil {
 		return tokens, ErrorGetUser
-	}
-
-	// publish email to event store
-	s.emailChan <- model.EmailEvent{
-		Email:     user.Email,
-		FirstName: user.FirstName,
-		Subject:   "Sign up",
-		Body:      fmt.Sprintf("Thank you for register\nPlease confirm you email using this confirmation token: %s", user.ConfirmationLink),
 	}
 
 	return s.token.CreatePairToken(user.ID, user.Role)

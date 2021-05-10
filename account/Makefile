@@ -56,7 +56,7 @@ test_port:
 	go test -v -cover -count=1 ./port/test/...
 
 run:
-	go run cmd/server/main.go
+	go run main.go
 	
-.PHONY: up down createdb dropdb connect migrate sqlc test_services test_adapters
+.PHONY: up down createdb dropdb connect migrate test_service test_adapters test_port
 

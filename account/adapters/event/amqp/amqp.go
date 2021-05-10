@@ -14,9 +14,10 @@ type AmqpEventStore struct {
 	conn   *amqp.Connection
 }
 
-func NewAmqpEventStore(conn *amqp.Connection) *AmqpEventStore {
+func NewAmqpEventStore(logger *zap.Logger, conn *amqp.Connection) *AmqpEventStore {
 	return &AmqpEventStore{
-		conn: conn,
+		logger: logger,
+		conn:   conn,
 	}
 }
 
@@ -35,7 +36,6 @@ func (a *AmqpEventStore) PublishEmail(
 	if err != nil {
 		return err
 	}
-
 	for {
 		select {
 		case <-ctx.Done():
@@ -54,6 +54,7 @@ func (a *AmqpEventStore) PublishEmail(
 			if err != nil {
 				return err
 			}
+			a.logger.Warn("Published...")
 		}
 	}
 }
@@ -90,6 +91,7 @@ func (a *AmqpEventStore) PublishNotification(ctx context.Context,
 			if err != nil {
 				return err
 			}
+			a.logger.Warn("Published...")
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"net/http"
 	"strings"
 
@@ -22,7 +23,9 @@ func (g *JWTGenerator) JwtMiddleware() echo.MiddlewareFunc {
 				return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 			}
 
-			c.Set(PKey, payload)
+			ctx := context.WithValue(context.Background(), PKey, payload)
+			c.Set("context", ctx)
+
 			return next(c)
 		}
 	}

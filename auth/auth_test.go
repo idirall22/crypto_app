@@ -20,7 +20,7 @@ func TestContextPayload(t *testing.T) {
 
 	engine := echo.New()
 	engine.GET("/", func(c echo.Context) error {
-		payload, err := auth.GetPayloadFromContext(c)
+		payload, err := auth.GetPayloadFromContext(auth.Context(c))
 		require.NoError(t, err)
 		require.NotNil(t, payload)
 		return nil

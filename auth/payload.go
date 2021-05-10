@@ -1,9 +1,10 @@
 package auth
 
 import (
-	"context"
 	"errors"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 const (
@@ -52,13 +53,13 @@ func (payload *Payload) Valid() error {
 }
 
 // GetPayloadFromContext get payload from context
-func GetPayloadFromContext(ctx context.Context) (*Payload, error) {
+func GetPayloadFromContext(ctx echo.Context) (*Payload, error) {
 	var (
 		payload *Payload
 		ok      bool
 	)
 
-	payload, ok = ctx.Value(PKey).(*Payload)
+	payload, ok = ctx.Get(PKey).(*Payload)
 	if !ok {
 		return payload, ErrorToGetJWTPayload
 	}

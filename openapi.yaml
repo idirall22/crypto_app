@@ -1,0 +1,502 @@
+---
+openapi: 3.0.0
+info:
+  title: cryptoapp
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/idirall22/cryptoapp/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /account/register:
+    post:
+      description: register new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/register'
+        required: true
+      responses:
+        "201":
+          description: register user response
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/login:
+    post:
+      description: login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login_request'
+        required: true
+      responses:
+        "201":
+          description: login user response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tokens'
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/activate_account:
+    post:
+      description: activate user account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/activate_account_request'
+        required: true
+      responses:
+        "204":
+          description: ok
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: not exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/profile/{id}:
+    get:
+      description: login user
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: login user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: return error unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: return error forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /account/wallets:
+    get:
+      description: list user wallets
+      responses:
+        "200":
+          description: list user wallets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/wallet'
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: return error unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: return error forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: not exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    post:
+      description: send money from wallet to wallet
+      responses:
+        "200":
+          description: send money from wallet to wallet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transaction'
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: return error unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: return error forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: not exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /account/transactions:
+    get:
+      description: list wallet transactions
+      parameters:
+      - name: page
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: items
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: address
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: from_date
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+      - name: to_date
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+      responses:
+        "200":
+          description: list wallet transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/transaction'
+        "400":
+          description: return error bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: return error unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: return error forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "503":
+          description: return error service not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /account/healthy:
+    get:
+      description: check if service is healthy
+      responses:
+        "200":
+          description: healthy
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /notify/healthy:
+    get:
+      description: check if service is healthy
+      responses:
+        "200":
+          description: healthy
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /notify/ws:
+    get:
+      description: upgrade to websocket connection
+      responses:
+        "101":
+          description: connection upgraded
+        "426":
+          description: upgraded required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: return internal error server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+    tokens:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+    login_request:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          maximum: 50
+          minimum: 8
+          type: string
+    activate_account_request:
+      required:
+      - confirmation_link
+      type: object
+      properties:
+        confirmation_link:
+          type: string
+          format: uuid
+    register:
+      required:
+      - email
+      - first_name
+      - last_name
+      - password
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          maximum: 50
+          minimum: 8
+          type: string
+    user:
+      required:
+      - email
+      - first_name
+      - last_name
+      - password
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date
+    transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: in32
+        commision:
+          type: integer
+          format: float
+        amount:
+          type: integer
+          format: float
+        currency:
+          type: string
+        sender_address:
+          type: string
+        recipient_address:
+          type: string
+        created_at:
+          type: string
+          format: date
+    wallet:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: in32
+        user_id:
+          type: integer
+          format: float
+        amount:
+          type: integer
+          format: float
+        currency:
+          type: string
+        address:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

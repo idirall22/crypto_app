@@ -141,17 +141,24 @@ func (_m *IService) LoginUser(ctx context.Context, args model.LoginUserParams) (
 }
 
 // RegisterUser provides a mock function with given fields: ctx, args
-func (_m *IService) RegisterUser(ctx context.Context, args model.RegisterUserParams) error {
+func (_m *IService) RegisterUser(ctx context.Context, args model.RegisterUserParams) (string, error) {
 	ret := _m.Called(ctx, args)
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, model.RegisterUserParams) error); ok {
+	var r0 string
+	if rf, ok := ret.Get(0).(func(context.Context, model.RegisterUserParams) string); ok {
 		r0 = rf(ctx, args)
 	} else {
-		r0 = ret.Error(0)
+		r0 = ret.Get(0).(string)
 	}
 
-	return r0
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, model.RegisterUserParams) error); ok {
+		r1 = rf(ctx, args)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // SendMoney provides a mock function with given fields: ctx, args

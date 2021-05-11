@@ -1,30 +1,22 @@
-curl -X POST -H 'Content-Type: application/json' -d '{"email":"idirall22@gmail.com", "first_name":"idir", "last_name":"makhlouf", "password":"abcdefg123456"}' 127.0.0.1:8080/register
-curl -X POST -H 'Content-Type: application/json' -d '{"email":"nassimall22@gmail.com", "first_name":"idir", "last_name":"makhlouf", "password":"abcdefg123456"}' 127.0.0.1:8080/register
-
-curl -X POST -H 'Content-Type: application/json' -d '{"email":"idirall22@gmail.com", "password":"abcdefg123456"}' 127.0.0.1:8080/login
-curl -X POST -H 'Content-Type: application/json' -d '{"email":"nassimall22@gmail.com", "password":"abcdefg123456"}' 127.0.0.1:8080/login
-
-curl -X POST -H 'Content-Type: application/json' -d '{"confirmation_link":"24d5cf2e-e918-4e31-b027-3d8a214688c9"}' 127.0.0.1:8080/activate_account
-curl -X POST -H 'Content-Type: application/json' -d '{"confirmation_link":"36fbffdb-cfcb-441b-b878-1a87fa97af06"}' 127.0.0.1:8080/activate_account
-
-curl -H 'Content-Type: application/json' -H 'Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEwVDEyOjU4OjA1LjU2NjY2ODE4NFoiLCJleHQiOiIyMDIxLTA1LTEwVDEzOjEzOjA1LjU2NjY2ODI2N1oifQ.hty2g1nUoyCEnsxxVYM9CzCJRIVsNJOXFbApTI-BzoCQBFHHP-S6bqOlLrFAXWMvuboyLXAWNQARGJIiQ_SqFfTQNohZcAbKP5VjCBhcsuLmAbbh71o6hjUNLoIIEex2Z6TnvoAbBcHK1ZH2n0-sr3CyKmtJ-jCezeftfOIIbZ4Bw8kZtazhon-xmzPDeytwTACZ7QmVaNd9OXDCDHNZLzwajPvgN0A4vjMrwDO0GeIx9nXdMq7mPezpUb898QeICU6zEzbln7FB3qUiuAypX1kRIFqLivpgfjC-rCSS6OF7sHK0JdSBrM42D8t1X2Tr53soomUYxnNFXVzlAd7uQw' 127.0.0.1:8080/wallets
-curl -H 'Content-Type: application/json' -H 'Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEwVDEyOjU4OjI5Ljg4MzI1Nzg0WiIsImV4dCI6IjIwMjEtMDUtMTBUMTM6MTM6MjkuODgzMjU3OTM5WiJ9.POr57wEwbomo0mFVY0_atE6RJznZlvDmKrVoWaUSce84XuyRHQ9j4zpiUkg6lKnpW3amA2ms32UuBxtWwSOEpBesQZhFtPxPS89q0M9LmGNr8YeiBOGrDoBnU7o8EP2ObcNV9SnYdwsqcOk-mu25arwpETEhF6RnYC4pr6GSDBo3LziW6FGtb0n3QH0YCiI_nJnZ8F8MABMGXDz48BqVUs-PZkfZnHm-ITOdLBwvp9ru-e1trTUtpNkgXckWq4lxs1fIdU9-3d445Du9sgJk0aPkbG65ho2M1vGd36zPMdMeRsZw-H9W6kWHHGdd6TsdRm1Fm87cgNivM21YcfWmFg' 127.0.0.1:8080/wallets
-
-curl -X POST -d '{"amount":10,"currency":"btc","sender_address":"ace7da5d0f16675d6087cbecd915f953e3a4ede7c4f87da87ef36b3875074dcf8a6982bccdcdd0e6df3fdb919525a9deca6960476502043246dde74b4d5939c4","recipient_address":"032509530b6358885a292b665b5ba64007e4cfd66ef9655615494692cef9736bfc3c0a7e8b89ab1ffb1f7d2b508795afe47ace9748fd5bbf575e27cca5087318"}' -H 'Content-Type: application/json' -H 'Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEwVDEyOjU4OjA1LjU2NjY2ODE4NFoiLCJleHQiOiIyMDIxLTA1LTEwVDEzOjEzOjA1LjU2NjY2ODI2N1oifQ.hty2g1nUoyCEnsxxVYM9CzCJRIVsNJOXFbApTI-BzoCQBFHHP-S6bqOlLrFAXWMvuboyLXAWNQARGJIiQ_SqFfTQNohZcAbKP5VjCBhcsuLmAbbh71o6hjUNLoIIEex2Z6TnvoAbBcHK1ZH2n0-sr3CyKmtJ-jCezeftfOIIbZ4Bw8kZtazhon-xmzPDeytwTACZ7QmVaNd9OXDCDHNZLzwajPvgN0A4vjMrwDO0GeIx9nXdMq7mPezpUb898QeICU6zEzbln7FB3qUiuAypX1kRIFqLivpgfjC-rCSS6OF7sHK0JdSBrM42D8t1X2Tr53soomUYxnNFXVzlAd7uQw' 127.0.0.1:8080/wallets
-
-[{"id":1,"currency":"btc","user_id":1,"address":"ace7da5d0f16675d6087cbecd915f953e3a4ede7c4f87da87ef36b3875074dcf8a6982bccdcdd0e6df3fdb919525a9deca6960476502043246dde74b4d5939c4","amount":100},{"id":2,"currency":"ether","user_id":1,"address":"472d12cde5d00116375a04eb40d882cb4f8a69548e466cea117313889b7a5eab15e81a4d5496f29b749327f70ec567747c1d08211c48294c7cc80642507168da","amount":100}]
-[{"id":3,"currency":"btc","user_id":2,"address":"032509530b6358885a292b665b5ba64007e4cfd66ef9655615494692cef9736bfc3c0a7e8b89ab1ffb1f7d2b508795afe47ace9748fd5bbf575e27cca5087318","amount":100},{"id":4,"currency":"ether","user_id":2,"address":"60c4b8658e167ec5c0e2549155662e71b7e98e898c6d950f61814b32c14643b5127dbf54a9ed6970a9f8328d95d03f335c392b0d9c3e0439f94a1bc52316c39f","amount":100}]
-
-curl -H 'Content-Type: application/json' -H 'Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEwVDEyOjU4OjA1LjU2NjY2ODE4NFoiLCJleHQiOiIyMDIxLTA1LTEwVDEzOjEzOjA1LjU2NjY2ODI2N1oifQ.hty2g1nUoyCEnsxxVYM9CzCJRIVsNJOXFbApTI-BzoCQBFHHP-S6bqOlLrFAXWMvuboyLXAWNQARGJIiQ_SqFfTQNohZcAbKP5VjCBhcsuLmAbbh71o6hjUNLoIIEex2Z6TnvoAbBcHK1ZH2n0-sr3CyKmtJ-jCezeftfOIIbZ4Bw8kZtazhon-xmzPDeytwTACZ7QmVaNd9OXDCDHNZLzwajPvgN0A4vjMrwDO0GeIx9nXdMq7mPezpUb898QeICU6zEzbln7FB3qUiuAypX1kRIFqLivpgfjC-rCSS6OF7sHK0JdSBrM42D8t1X2Tr53soomUYxnNFXVzlAd7uQw' 127.0.0.1:8080/transactions?\address=ace7da5d0f16675d6087cbecd915f953e3a4ede7c4f87da87ef36b3875074dcf8a6982bccdcdd0e6df3fdb919525a9deca6960476502043246dde74b4d5939c4
-curl -H 'Content-Type: application/json' -H 'Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEwVDA0OjM4OjM0LjE0MTg1OTU4Ny0wNzowMCIsImV4dCI6IjIwMjEtMDUtMTBUMDQ6NTM6MzQuMTQxODU5NjctMDc6MDAifQ.jY92IuoQtteRKxSq6574VDKMVOvN7Uwnqz6fQJxw2Trn9i8gUgZhBC5Zf1mlr6CdfAH5WOmXljIC5-bE1OeU6s-P9i_1aRt1XFKQpocTVvFdcxMnzOdXGraTXysDmTLeJyEQ1Z8Wd-4-WIU9KIjaQ-pG0-I9cgE_K0279ywbOL3rL3ALR65X_ckhu7EnhekB7p5LCr3cEAS342q8eU1ORlj1ZbBo-B2EkCGJxQWRipywGM89lXfn1oPWssYteDYvvMvKnQOxDrQMEW2iTPhB2ggwFtOh02wK5i7hv9Kl1c7K73a8LslRKXmRs1oyN5G-lXWG9kc6nGAoX0I8VNd0bw' 127.0.0.1:8080/transactions?\address=032509530b6358885a292b665b5ba64007e4cfd66ef9655615494692cef9736bfc3c0a7e8b89ab1ffb1f7d2b508795afe47ace9748fd5bbf575e27cca5087318
+curl --include \
+     --no-buffer \
+     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTExVDIxOjI1OjUxLjk0MzY5MDMzMVoiLCJleHQiOiIyMDIxLTA1LTExVDIxOjQwOjUxLjk0MzY5MDU3NVoifQ.RVNL-fATxLXYdpOOxlS5nNhEqP8ane_t6bizlP5D9RpQIiuKs2NhjzooABq78owhEodH3RRfpM7w_E1_9IOTXWqWHKwaeW8ykR8PMDits-fP31pBAyB4FzQL6zZRBqpVDKtMCzn8fcRlwD7x_3saFza-p3br8P3MnKYXZjARd-akuR0tNh564k0SaL00tCmfcyvvom4oz0k9rP7nx7D0NcNegD62eJioELMW5GkaI-d-GGvd1m4G6GR-hZNgKLKbxqhpB9BDFLTsAgf16V9jSyhyoojp0lhl2tTzaI03gzWkkyQuRFj7ARVJmvITCE1scDaj7en7O3HFwVSt6O6SnQ" \
+     --header "Connection: Upgrade" \
+     --header "Upgrade: websocket" \
+     --header "Host: cryptoapp.com" \
+     --header "Origin: http://cryptoapp.com/" \
+     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+     --header "Sec-WebSocket-Version: 13" \
+     cryptoapp.com/notify/ws
 
 curl --include \
      --no-buffer \
-     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEwVDExOjU5OjMwLjExNzAzMzc3MloiLCJleHQiOiIyMDIxLTA1LTEwVDEyOjE0OjMwLjExNzAzMzg5MloifQ.Vq4MVRbDfR-Aip38BEPzSROWTF8ou5ivkYJmX0p_VkArwl5RXg06okHbosGQL2pnddyGH25ApyQpgFff_vW2t3kHfYJc7Db6IBAUcdexVhIyzx8nhaU0q4RkqPVPRwtT97iVF1qI4ErkZqOVm8V5KS16jg2H5dCfjIMCDU1-hKy_P_RCOCeWqfaS-wVRVGZH2kJN3znbf30oOnfgNxpGuqaqe7-ttCGxQI7nfrSa669mrV08yq14mirwvTbANAZb6XHYyUbwy8C3B0CFff5f-c20zhov_14W3ywVPYma1n9FHNedFjU648Qvssts7uS5PO6MTdZ_bJvETgRsQ1WVCw" \
+     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTExVDIxOjI1OjU0LjM1MTM1ODc5OVoiLCJleHQiOiIyMDIxLTA1LTExVDIxOjQwOjU0LjM1MTM1OTEzM1oifQ.nauf4rymGoVo21YwsDPB_8FOTtDc63gu2GQ4Jcbeg8OoAMEmv8SfzegmussN4SclHN53yxVehVeixHjT6KGMkp_Cv76SfxS72pdb4n7l6Za3tTYR2A_D7RggM4h_ZZYUUd4xQvGjSbCqKFpPLimM4NpyxDOtf0ri0X_Fxz9QFyQaFUQur5r8IfShbVTIvBcwBU__KtKfP63pdEVrYC7FIrTO8Z6DtO8d8ViSpZsBqVHGnxh6BoKRFxiu54NTysWaTn_3sAjbTlnmGtXps95sHr2_dN1IhWAFjIA9r0cC-XHM2lJpPfz9hnNPPiKImuwZ5fiftFtAaIh8CMEAzyEYCA" \
      --header "Connection: Upgrade" \
      --header "Upgrade: websocket" \
-     --header "Host: 0.0.0.0:8081" \
-     --header "Origin: http://0.0.0.0:8081" \
+     --header "Host: cryptoapp.com" \
+     --header "Origin: http://cryptoapp.com/" \
      --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
      --header "Sec-WebSocket-Version: 13" \
-     0.0.0.0:8081/ws
+     cryptoapp.com/notify/ws
+     

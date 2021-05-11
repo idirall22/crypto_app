@@ -17,17 +17,17 @@ const (
 	LoginBlockTime   = time.Second * 180
 )
 
-func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUserParams) error {
+func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUserParams) (string, error) {
 
 	args.Sanitize(s.sanitizer)
 	err := s.validator.Struct(args)
 	if err != nil {
-		return ErrorInvalidRequestData
+		return "", ErrorInvalidRequestData
 	}
 
 	passwordHash, err := utils.HashPassword(args.Password)
 	if err != nil {
-		return ErrorInvalidRequestData
+		return "", ErrorInvalidRequestData
 	}
 
 	args.XXX_ConfirmationLink = uuid.New().String()
@@ -40,7 +40,7 @@ func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUs
 	for range model.DefaultCurrencies {
 		_, pub, err := utils.GenerateWallet()
 		if err != nil {
-			return ErrorCreateWallet
+			return "", ErrorCreateWallet
 		}
 		args.XXX_WalletAddresses = append(args.XXX_WalletAddresses, pub)
 	}
@@ -48,7 +48,7 @@ func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUs
 	user, err := s.repo.RegisterUser(ctx, args)
 	if err != nil {
 		s.logger.Warn(err.Error())
-		return err
+		return "", err
 	}
 
 	s.emailChan <- model.EmailEvent{
@@ -58,7 +58,7 @@ func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUs
 		Body:      fmt.Sprintf("Confirmation link: %s", user.ConfirmationLink),
 	}
 
-	return err
+	return user.ConfirmationLink, err
 }
 
 func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserParams) (auth.TokenInfos, error) {
@@ -71,9 +71,11 @@ func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserPara
 		return tokens, ErrorInvalidRequestData
 	}
 
+	fmt.Println("-----------------------------------1")
 	// check if user is not blocked and can login
 	err = s.CheckIfUserCanLogin(args.Email)
 	if err != nil {
+		fmt.Println("2----------------------------", err)
 		if err == ErrorAccountBlocked {
 			return tokens, ErrorAccountBlocked
 		}
@@ -82,15 +84,18 @@ func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserPara
 
 	user, err := s.repo.GetUser(ctx, model.GetUserParams{Email: args.Email})
 	if err != nil {
+		fmt.Println("3----------------------------", err)
 		return tokens, err
 	}
 
 	if !user.IsActive {
+		fmt.Println("4----------------------------")
 		return tokens, ErrorUserAccountNoActive
 	}
 
 	err = utils.CheckPassword(args.Password, user.PasswordHash)
 	if err != nil {
+		fmt.Println("5----------------------------", err)
 		return tokens, ErrorGetUser
 	}
 

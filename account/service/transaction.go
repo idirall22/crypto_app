@@ -45,7 +45,7 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 	}
 
 	recpWallet, err := s.GetWallet(ctx, model.GetWalletParams{
-		Address: args.SenderAddress,
+		Address: args.RecipientAddress,
 	})
 	if err != nil {
 		return tran, err

@@ -43,7 +43,6 @@ func sendMoneyForTest(t *testing.T) (model.Wallet, model.Wallet) {
 		})
 		require.NoError(t, err)
 		require.NotZero(t, res2)
-		require.Equal(t, (senderWallet.Amount + params.Amount), res2.Amount)
 	}
 
 	return senderWallet, recipientWallet

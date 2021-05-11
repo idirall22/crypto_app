@@ -3,24 +3,31 @@ package gmail
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/smtp"
 
 	"github.com/idirall22/crypto_app/notify/config"
 	"github.com/idirall22/crypto_app/notify/service/model"
+	"go.uber.org/zap"
 )
 
 type Gmail struct {
-	cfg *config.Config
+	logger *zap.Logger
+	cfg    *config.Config
 }
 
-func NewGmail(cfg *config.Config) *Gmail {
+func NewGmail(logger *zap.Logger, cfg *config.Config) *Gmail {
 	return &Gmail{
-		cfg: cfg,
+		logger: logger,
+		cfg:    cfg,
 	}
 }
 func (g *Gmail) SendRegisterUserConfirmationEmail(
 	ctx context.Context, args model.RegisterUserConfirmationEmailParams) error {
+
+	if g.cfg.GMailEmail == "" || g.cfg.GMailPassword == "" {
+		g.logger.Warn("Email and email password no set")
+		return nil
+	}
 
 	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\n\n%s",
 		g.cfg.GMailEmail,
@@ -29,16 +36,18 @@ func (g *Gmail) SendRegisterUserConfirmationEmail(
 		args.Body,
 	)
 
-	err := smtp.SendMail(fmt.Sprintf("%s:%s", g.cfg.GMailSMTP, g.cfg.GMailSMTPPort),
+	err := smtp.SendMail(
+		fmt.Sprintf("%s:%s", g.cfg.GMailSMTP, g.cfg.GMailSMTPPort),
 		smtp.PlainAuth("", g.cfg.GMailEmail, g.cfg.GMailPassword, g.cfg.GMailSMTP),
-		g.cfg.GMailEmail, []string{args.Email}, []byte(msg))
+		g.cfg.GMailEmail, []string{args.Email}, []byte(msg),
+	)
 
 	if err != nil {
-		log.Printf("smtp error: %s", err)
+		g.logger.Warn("smtp error: " + err.Error())
 		return err
 	}
 
-	log.Print("sent")
+	g.logger.Info("email sent")
 
 	return nil
 }

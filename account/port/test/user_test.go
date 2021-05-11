@@ -28,7 +28,7 @@ func TestRegisterUser(t *testing.T) {
 				mockService.On("RegisterUser", context.Background(),
 					mock.MatchedBy(func(input model.RegisterUserParams) bool {
 						return true
-					})).Return(nil).Times(1)
+					})).Return("", nil).Times(1)
 			},
 			body: func() (*strings.Reader, string) {
 				data, err := json.Marshal(model.RegisterUserParams{
@@ -47,6 +47,7 @@ func TestRegisterUser(t *testing.T) {
 		c.run(t)
 	}
 }
+
 func TestLoginUser(t *testing.T) {
 	testCases := []portTestCase{
 		{
@@ -87,7 +88,7 @@ func TestActivateAccount(t *testing.T) {
 			request: func(req *http.Request) *http.Request {
 				return req
 			},
-			status: http.StatusNoContent,
+			status: http.StatusOK,
 			mock: func() {
 				mockService.On("ActivateAccount", context.Background(),
 					mock.MatchedBy(func(input model.ActivateAccountParams) bool {

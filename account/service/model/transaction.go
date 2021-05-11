@@ -38,7 +38,7 @@ func (p *ListTransactionsParams) NormalizeInput() {
 
 type SendMoneyParams struct {
 	Amount           float64 `json:"amount" validate:"required,gt=0"`
-	Currency         string  `json:"currency" validate:"required,gt=0"`
+	Currency         string  `json:"currency" validate:"required"`
 	SenderAddress    string  `json:"sender_address" validate:"required"`
 	RecipientAddress string  `json:"recipient_address" validate:"required"`
 	XXX_Commission   float64 `json:"-"`

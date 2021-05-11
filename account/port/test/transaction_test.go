@@ -38,7 +38,9 @@ func TestListTransactions(t *testing.T) {
 			},
 			status: http.StatusOK,
 			mock: func() {
-				mockService.On("ListTransactions", context.Background(),
+				mockService.On("ListTransactions", mock.MatchedBy(func(input context.Context) bool {
+					return true
+				}),
 					mock.MatchedBy(func(input model.ListTransactionsParams) bool {
 						return true
 					})).Return([]model.Transaction{}, nil).Times(1)
@@ -53,11 +55,12 @@ func TestListTransactions(t *testing.T) {
 		c.run(t)
 	}
 }
+
 func TestSendMoney(t *testing.T) {
 	testCases := []portTestCase{
 		{
 			desc:   "Success",
-			url:    "/wallets",
+			url:    "/send_money",
 			method: http.MethodPost,
 			request: func(req *http.Request) *http.Request {
 				req.Header.Add("Authorization", "bearer "+userBearerTokens.AccessToken)
@@ -65,7 +68,9 @@ func TestSendMoney(t *testing.T) {
 			},
 			status: http.StatusCreated,
 			mock: func() {
-				mockService.On("SendMoney", context.Background(),
+				mockService.On("SendMoney", mock.MatchedBy(func(input context.Context) bool {
+					return true
+				}),
 					mock.MatchedBy(func(input model.SendMoneyParams) bool {
 						return true
 					})).Return(model.Transaction{}, nil).Times(1)

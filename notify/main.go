@@ -28,7 +28,7 @@ func main() {
 		log.Fatal(fmt.Sprintf("Error to create a logger: %v", err))
 	}
 
-	g := gmail.NewGmail(cfg)
+	g := gmail.NewGmail(logger, cfg)
 
 	conn := connectEventStore(cfg)
 	defer conn.Close()

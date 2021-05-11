@@ -62,7 +62,7 @@ func TestRegisterUser(t *testing.T) {
 
 	for _, c := range testCases {
 		c.mock(c.ctx)
-		err := serviceTest.RegisterUser(c.ctx, c.params)
+		_, err := serviceTest.RegisterUser(c.ctx, c.params)
 		c.compare(err)
 	}
 }
@@ -96,6 +96,11 @@ func TestLoginUser(t *testing.T) {
 						PasswordHash: passwordHash,
 						IsActive:     true,
 					}, nil).Times(1)
+				mockMemory.On("SetLoginAttemps",
+					mock.AnythingOfType("string"), 2, service.LoginBlockTime,
+				).Return(nil).Times(1)
+				mockMemory.On("GetLoginAttemps", mock.AnythingOfType("string")).
+					Return(1, nil).Times(1)
 			},
 			compare: func(err error) {
 				require.NoError(t, err)

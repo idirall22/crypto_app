@@ -22,7 +22,10 @@ func TestListWallets(t *testing.T) {
 			},
 			status: http.StatusOK,
 			mock: func() {
-				mockService.On("ListWallets", context.Background(),
+				mockService.On("ListWallets",
+					mock.MatchedBy(func(input context.Context) bool {
+						return true
+					}),
 					mock.MatchedBy(func(input model.ListWalletsParams) bool {
 						return true
 					})).Return([]model.Wallet{}, nil).Times(1)
@@ -46,7 +49,10 @@ func TestListWallets(t *testing.T) {
 			},
 			status: http.StatusOK,
 			mock: func() {
-				mockService.On("ListWallets", context.Background(),
+				mockService.On("ListWallets",
+					mock.MatchedBy(func(input context.Context) bool {
+						return true
+					}),
 					mock.MatchedBy(func(input model.ListWalletsParams) bool {
 						return true
 					})).Return([]model.Wallet{}, nil).Times(1)

@@ -5,9 +5,9 @@ CREATE TABLE "role" (
 
 CREATE TABLE "users" (
   "id" serial PRIMARY KEY,
-  "first_name" varchar,
-  "last_name" varchar,
-  "email" varchar,
+  "first_name" varchar NOT NULL,
+  "last_name" varchar NOT NULL,
+  "email" varchar UNIQUE NOT NULL,
   "is_active" boolean,
   "confirmation_link" varchar,
   "password_hash" varchar,

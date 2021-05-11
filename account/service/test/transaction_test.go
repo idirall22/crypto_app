@@ -52,6 +52,7 @@ func TestListTransactions(t *testing.T) {
 		c.compare(err)
 	}
 }
+
 func TestSendMoney(t *testing.T) {
 	ctx := context.Background()
 	currency := gofakeit.RandString(model.DefaultCurrencies)
@@ -98,8 +99,7 @@ func TestSendMoney(t *testing.T) {
 					UserID:   1,
 					Address:  senderAddress,
 					Amount:   100,
-				}, nil).Times(1)
-
+				}, nil).Times(2)
 				mockRepo.On("SendMoney", ctx,
 					mock.MatchedBy(func(input model.SendMoneyParams) bool {
 						return true

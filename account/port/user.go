@@ -18,12 +18,12 @@ func (p *EchoPort) RegisterUser(c echo.Context) error {
 	params.XXX_IpAddress = c.Request().RemoteAddr
 	params.XXX_UserAgent = c.Request().UserAgent()
 
-	err = p.service.RegisterUser(c.Request().Context(), params)
+	link, err := p.service.RegisterUser(c.Request().Context(), params)
 	if err != nil {
 		return echo.NewHTTPError(parseError(err))
 	}
 
-	return c.JSON(http.StatusCreated, `{"message":"success"}`)
+	return c.JSON(http.StatusCreated, map[string]string{"confirmation_link": link})
 }
 
 func (p *EchoPort) LoginUser(c echo.Context) error {
@@ -52,7 +52,7 @@ func (p *EchoPort) ActivateAccount(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(parseError(err))
 	}
-	return c.JSON(http.StatusOK, `{"message":"success"}`)
+	return c.JSON(http.StatusOK, "success")
 }
 
 func (p *EchoPort) GetUser(c echo.Context) error {

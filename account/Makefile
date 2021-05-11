@@ -11,11 +11,11 @@ mocks:
 	mockery --dir service/ --name IService --output service/mock --exported
 
 # start a postgresql container
-up:
+postgres-up:
 	docker run -d -p ${DB_PORT}:${DB_PORT} -e POSTGRES_PASSWORD=${DB_PASSWORD} --name ${DOCKER_POSTGRES_NAME} postgres:13-alpine
 
 # delete the postgresql docker
-down:
+postgres-down:
 	docker rm -f ${DOCKER_POSTGRES_NAME}
 
 # create database

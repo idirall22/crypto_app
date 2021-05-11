@@ -209,8 +209,15 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
       - bearerAuth: []
+  /account/send_money:
     post:
       description: send money from wallet to wallet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/send_money_request'
+        required: true
       responses:
         "200":
           description: send money from wallet to wallet
@@ -280,7 +287,7 @@ paths:
         style: form
         explode: true
         schema:
-          type: integer
+          type: string
       - name: from_date
         in: query
         required: false
@@ -494,6 +501,18 @@ components:
         currency:
           type: string
         address:
+          type: string
+    send_money_request:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: float
+        currency:
+          type: string
+        sender_address:
+          type: string
+        recipient_address:
           type: string
   securitySchemes:
     bearerAuth:

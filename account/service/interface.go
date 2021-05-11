@@ -8,7 +8,7 @@ import (
 )
 
 type IService interface {
-	RegisterUser(ctx context.Context, args model.RegisterUserParams) error
+	RegisterUser(ctx context.Context, args model.RegisterUserParams) (string, error)
 	LoginUser(ctx context.Context, args model.LoginUserParams) (auth.TokenInfos, error)
 	ActivateAccount(ctx context.Context, args model.ActivateAccountParams) error
 	GetUser(ctx context.Context, args model.GetUserParams) (model.User, error)

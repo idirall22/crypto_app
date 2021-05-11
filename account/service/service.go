@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	ievent "github.com/idirall22/crypto_app/account/adapters/event"
+	imemory "github.com/idirall22/crypto_app/account/adapters/memory"
 	irepository "github.com/idirall22/crypto_app/account/adapters/repository"
 	"github.com/idirall22/crypto_app/account/service/model"
 	"github.com/idirall22/crypto_app/auth"
@@ -16,6 +17,7 @@ type ServiceAccount struct {
 	logger            *zap.Logger
 	repo              irepository.IRepository
 	eventStore        ievent.IEventStore
+	memoryStore       imemory.IMemoryStore
 	token             auth.TokenGenerator
 	validator         *validator.Validate
 	sanitizer         *bluemonday.Policy
@@ -27,6 +29,7 @@ func NewServiceAccount(
 	logger *zap.Logger,
 	repo irepository.IRepository,
 	eventStore ievent.IEventStore,
+	memoryStore imemory.IMemoryStore,
 	token auth.TokenGenerator,
 ) *ServiceAccount {
 
@@ -36,6 +39,7 @@ func NewServiceAccount(
 		logger:            logger,
 		repo:              repo,
 		eventStore:        eventStore,
+		memoryStore:       memoryStore,
 		token:             token,
 		validator:         validator,
 		sanitizer:         sanitizer,

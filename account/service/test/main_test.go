@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	mockevent "github.com/idirall22/crypto_app/account/adapters/event/amqp/mock"
+	mockmemory "github.com/idirall22/crypto_app/account/adapters/memory/redis/mock"
 	mockrepo "github.com/idirall22/crypto_app/account/adapters/repository/postgres/mock"
 	"github.com/idirall22/crypto_app/account/config"
 	"github.com/idirall22/crypto_app/account/service"
@@ -17,6 +18,7 @@ import (
 var (
 	mockRepo    *mockrepo.IRepository
 	mockEvent   *mockevent.IEventStore
+	mockMemory  *mockmemory.IMemoryStore
 	serviceTest *service.ServiceAccount
 )
 
@@ -37,7 +39,8 @@ func TestMain(m *testing.M) {
 
 	mockRepo = &mockrepo.IRepository{}
 	mockEvent = &mockevent.IEventStore{}
-	serviceTest = service.NewServiceAccount(logger, mockRepo, mockEvent, token)
+	mockMemory = &mockmemory.IMemoryStore{}
+	serviceTest = service.NewServiceAccount(logger, mockRepo, mockEvent, mockMemory, token)
 
 	os.Exit(m.Run())
 }

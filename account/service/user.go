@@ -3,11 +3,18 @@ package service
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/idirall22/crypto_app/account/service/model"
 	"github.com/idirall22/crypto_app/account/utils"
 	"github.com/idirall22/crypto_app/auth"
+)
+
+const (
+	MaxLoginAttempts = 3
+	LoginBlockTime   = time.Second * 180
 )
 
 func (s *ServiceAccount) RegisterUser(ctx context.Context, args model.RegisterUserParams) error {
@@ -64,6 +71,15 @@ func (s *ServiceAccount) LoginUser(ctx context.Context, args model.LoginUserPara
 		return tokens, ErrorInvalidRequestData
 	}
 
+	// check if user is not blocked and can login
+	err = s.CheckIfUserCanLogin(args.Email)
+	if err != nil {
+		if err == ErrorAccountBlocked {
+			return tokens, ErrorAccountBlocked
+		}
+		return tokens, err
+	}
+
 	user, err := s.repo.GetUser(ctx, model.GetUserParams{Email: args.Email})
 	if err != nil {
 		return tokens, err
@@ -99,4 +115,28 @@ func (s *ServiceAccount) GetUser(ctx context.Context, args model.GetUserParams) 
 		return model.User{}, ErrorInvalidRequestData
 	}
 	return s.repo.GetUser(ctx, args)
+}
+
+func (s *ServiceAccount) CheckIfUserCanLogin(email string) error {
+	b := strings.Builder{}
+	b.WriteString("login-")
+	b.WriteString(email)
+	key := b.String()
+
+	attempts, err := s.memoryStore.GetLoginAttemps(key)
+	if err != nil {
+		return err
+	}
+
+	if attempts >= MaxLoginAttempts {
+		return ErrorAccountBlocked
+	}
+
+	attempts += 1
+	err = s.memoryStore.SetLoginAttemps(key, attempts, LoginBlockTime)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

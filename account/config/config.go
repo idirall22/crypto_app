@@ -25,9 +25,12 @@ type Config struct {
 	JwtPrivatePath   string `mapstructure:"JWT_PRIVATE_PATH"`
 	JwtPublicPath    string `mapstructure:"JWT_PPUBLIC_PATH"`
 	RabbitMQUser     string `mapstructure:"RABBITMQ_USER"`
-	RabbitMQHost     string `mapstructure:"RABBITMQ_HOST"`
 	RabbitMQPassword string `mapstructure:"RABBITMQ_PASSWORD"`
+	RabbitMQHost     string `mapstructure:"RABBITMQ_HOST"`
 	RabbitMQPort     string `mapstructure:"RABBITMQ_PORT"`
+	RedisHost        string `mapstructure:"REDIS_HOST"`
+	RedisPort        string `mapstructure:"REDIS_PORT"`
+	RedisPassword    string `mapstructure:"REDIS_PASSWORD"`
 }
 
 func New() *Config {
@@ -47,6 +50,9 @@ func New() *Config {
 		RabbitMQHost:     os.Getenv("RABBITMQ_HOST"),
 		RabbitMQPassword: os.Getenv("RABBITMQ_PASSWORD"),
 		RabbitMQPort:     os.Getenv("RABBITMQ_PORT"),
+		RedisHost:        os.Getenv("REDIS_HOST"),
+		RedisPort:        os.Getenv("REDIS_PORT"),
+		RedisPassword:    os.Getenv("REDIS_PASSWORD"),
 	}
 }
 

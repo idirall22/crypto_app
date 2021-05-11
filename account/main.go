@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/go-redis/redis"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
@@ -14,6 +15,7 @@ import (
 	"gopkg.in/tylerb/graceful.v1"
 
 	amqpeventStore "github.com/idirall22/crypto_app/account/adapters/event/amqp"
+	redismem "github.com/idirall22/crypto_app/account/adapters/memory/redis"
 	pgrepo "github.com/idirall22/crypto_app/account/adapters/repository/postgres"
 	"github.com/idirall22/crypto_app/account/config"
 	"github.com/idirall22/crypto_app/account/port"
@@ -39,6 +41,11 @@ func main() {
 	defer esConn.Close()
 	event := amqpeventStore.NewAmqpEventStore(logger, esConn)
 
+	// Connect with memory store
+	rConn := connectToMemoryStore(cfg)
+	defer rConn.Close()
+	memory := redismem.NewRedisMemory(rConn)
+
 	// create jwt manager
 	jwtGen, err := auth.NewJWTGenerator(cfg.JwtPrivatePath, cfg.JwtPublicPath)
 	if err != nil {
@@ -47,7 +54,8 @@ func main() {
 
 	ctx, fn := context.WithCancel(context.Background())
 	defer fn()
-	service := service.NewServiceAccount(logger, repo, event, jwtGen)
+
+	service := service.NewServiceAccount(logger, repo, event, memory, jwtGen)
 	go func() {
 		err := service.Start(ctx)
 		if err != nil {
@@ -93,5 +101,15 @@ func connectToEventStore(cfg *config.Config) *amqp.Connection {
 	if err != nil {
 		log.Fatal(err)
 	}
+	return conn
+}
+
+func connectToMemoryStore(cfg *config.Config) *redis.Client {
+	conn := redis.NewClient(
+		&redis.Options{
+			Addr:       fmt.Sprintf("%s:%s", cfg.RedisHost, cfg.RedisPort),
+			MaxRetries: 3,
+		},
+	)
 	return conn
 }

@@ -35,6 +35,9 @@ func parseError(err error) (int, string) {
 	case pgrepo.ErrorAlreadyExists:
 		return http.StatusConflict, pgrepo.ErrorAlreadyExists.Error()
 
+	case service.ErrorAccountBlocked:
+		return http.StatusLocked, service.ErrorAccountBlocked.Error()
+
 	default:
 		return http.StatusInternalServerError, pgrepo.ErrorInternalError.Error()
 	}

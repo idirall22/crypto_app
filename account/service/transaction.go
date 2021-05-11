@@ -37,17 +37,24 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 		return tran, ErrorInvalidRequestData
 	}
 
-	wallet, err := s.GetWallet(ctx, model.GetWalletParams{
+	senderWallet, err := s.GetWallet(ctx, model.GetWalletParams{
 		Address: args.SenderAddress,
 	})
 	if err != nil {
-		fmt.Println("/*/*/*/*/*/*/*/*/")
 		return tran, err
 	}
+
+	recpWallet, err := s.GetWallet(ctx, model.GetWalletParams{
+		Address: args.SenderAddress,
+	})
+	if err != nil {
+		return tran, err
+	}
+
 	args.XXX_Commission = 0.01
 	args.XXX_UserID = payload.UserID
 
-	err = checkIfCanSendMoney(wallet, args)
+	err = checkIfCanSendMoney(senderWallet, args)
 	if err != nil {
 		return tran, err
 	}
@@ -56,12 +63,23 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 	if err != nil {
 		return tran, err
 	}
-	s.notificationsChan <- model.NotificationEvent{
-		UserID:    wallet.UserID,
-		Type:      "transaction",
-		Title:     "sent money",
-		Content:   fmt.Sprintf("sent %f %s from %s to %s", tran.Amount, tran.Currency, tran.SenderAddress, tran.RecipientAddress),
-		CreatedAt: tran.CreatedAt,
+
+	{
+		s.notificationsChan <- model.NotificationEvent{
+			UserID:    senderWallet.UserID,
+			Type:      "transaction",
+			Title:     "sent money",
+			Content:   fmt.Sprintf("sent %f %s from %s to %s", tran.Amount, tran.Currency, tran.SenderAddress, tran.RecipientAddress),
+			CreatedAt: tran.CreatedAt,
+		}
+
+		s.notificationsChan <- model.NotificationEvent{
+			UserID:    recpWallet.UserID,
+			Type:      "transaction",
+			Title:     "receive money",
+			Content:   fmt.Sprintf("receive %f %s from %s to %s", tran.Amount, tran.Currency, tran.RecipientAddress, tran.SenderAddress),
+			CreatedAt: tran.CreatedAt,
+		}
 	}
 
 	return tran, nil

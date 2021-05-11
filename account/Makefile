@@ -6,6 +6,7 @@ DOCKER_POSTGRES_NAME=cryptoapp
 # mock services
 mocks:
 	mockery --dir adapters/repository/ --name IRepository --output adapters/repository/postgres/mock --exported
+	mockery --dir adapters/memory/ --name IMemoryStore --output adapters/memory/redis/mock --exported
 	mockery --dir adapters/event --name IEventStore --output adapters/event/amqp/mock --exported
 	mockery --dir service/ --name IService --output service/mock --exported
 
@@ -34,6 +35,12 @@ rabbit-up:
 	-p 5672:5672 -p 15672:15672 \
 	--name crypto-rabbit rabbitmq:3
 
+redis-up:
+	docker run --name redis -p 6379:6379 redis
+
+redis-down:
+	docker rm -f redis
+	
 # delete rabbitmq container
 rabbit-down:
 	docker rm -f crypto-rabbit

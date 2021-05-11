@@ -203,3 +203,45 @@ func TestGetUser(t *testing.T) {
 		c.compare(err)
 	}
 }
+
+func TestCheckUserCanLogin(t *testing.T) {
+
+	testCases := []struct {
+		desc    string
+		mock    func()
+		compare func(err error)
+	}{
+		{
+			desc: "Fail, user can not login for 3min",
+			mock: func() {
+				mockMemory.On("GetLoginAttemps", mock.AnythingOfType("string")).
+					Return(3, nil).Times(1)
+				mockMemory.On("SetLoginAttemps",
+					mock.AnythingOfType("string"), 1, service.LoginBlockTime).
+					Return(nil).Times(1)
+			},
+			compare: func(err error) {
+				require.Equal(t, service.ErrorAccountBlocked.Error(), err.Error())
+			},
+		},
+		{
+			desc: "Success, user can login",
+			mock: func() {
+				mockMemory.On("GetLoginAttemps", mock.AnythingOfType("string")).
+					Return(0, nil).Times(1)
+				mockMemory.On("SetLoginAttemps",
+					mock.AnythingOfType("string"), 1, service.LoginBlockTime).
+					Return(nil).Times(1)
+			},
+			compare: func(err error) {
+				require.NoError(t, err)
+			},
+		},
+	}
+
+	for _, c := range testCases {
+		c.mock()
+		err := serviceTest.CheckIfUserCanLogin(gofakeit.Email())
+		c.compare(err)
+	}
+}

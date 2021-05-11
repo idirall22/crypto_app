@@ -5,6 +5,9 @@ import (
 )
 
 var (
+	// ErrorAccountBlocked when bruitforce login
+	ErrorAccountBlocked = errors.New("the account is blocked for 3 min")
+
 	// ErrorInvalidRequestData request data not valid
 	ErrorInvalidRequestData = errors.New("invalid requirest data")
 

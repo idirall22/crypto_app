@@ -7,9 +7,11 @@ require (
 	github.com/brianvoe/gofakeit/v6 v6.4.1
 	github.com/ethereum/go-ethereum v1.10.3
 	github.com/go-playground/validator/v10 v10.6.0
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/google/uuid v1.2.0
 	github.com/idirall22/crypto_app/auth v0.0.0-20210510110047-ba74d9efb255
 	github.com/jmoiron/sqlx v1.3.3
+	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.3.0
 	github.com/lib/pq v1.10.1
 	github.com/microcosm-cc/bluemonday v1.0.9

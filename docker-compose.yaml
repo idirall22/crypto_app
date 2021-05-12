@@ -27,7 +27,7 @@ services:
       - JWT_PUBLIC_PATH=rsa/public.pem
       - PORT=8081
       - RABBITMQ_USER=user
-      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_PASSWORD=password 
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
       - GMAIL_SMTP_PORT=587
@@ -49,7 +49,7 @@ services:
       - DB_HOST=postgres
       - DB_DRIVER=postgres
       - DB_USER=postgres
-      - DB_PASSWORD=password
+      - DB_PASSWORD=password 
       - DB_NAME=cryptoapp
       - DB_PORT=5432
       - JWT_PRIVATE_PATH=rsa/key.pem

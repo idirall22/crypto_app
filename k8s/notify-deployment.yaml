@@ -1,0 +1,50 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: notify-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      component: notify
+  template:
+    metadata:
+      label:
+        component: notify
+    spec:
+      containers:
+        - name: notify
+          image: gcr.io/gateway-282214/notify
+          port: 
+            - containerPort: 8081
+          env:
+            - name: JWT_PRIVATE_PATH
+              value: rsa/key.pem
+            - name: JWT_PUBLIC_PATH
+              value: rsa/public.pem
+            - name: PORT
+              value: '8081'
+            - name: RABBITMQ_USER
+              value: user
+            - name: RABBITMQ_PASSWORD
+              secretKeyRef:
+                  name: password
+                  key: RABBITMQ_PASSWORD
+            - name: RABBITMQ_HOST
+              value: rabbitmq-service
+            - name: RABBITMQ_PORT
+              value: '5672'
+            - name: GMAIL_SMTP_PORT
+              value: '587'
+            - name: GMAIL_SMTP
+              value: smtp.gmail.com
+            - name: GMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gmail
+                  key: GMAIL_PASSWORD
+            - name: GMAIL_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: gmail
+                  key: GMAIL_EMAIL

@@ -1,3 +1,5 @@
+GCP_PROJECT_ID=gateway-282214
+
 rsa-genrate:
 	openssl genrsa -out rsa/key.pem 2048 && openssl rsa -in rsa/key.pem -pubout -out rsa/public.pem
 
@@ -29,8 +31,24 @@ down:
 prune:
 	docker rmi -f $(docker images -f "dangling=true" -q)
 
-docker-account:
-	docker build -f account/Dockerfile .
+docker-account	:
+	docker build -f account/Dockerfile -t gcr.io/${GCP_PROJECT_ID}/account .
 
 docker-notify:
-	docker build -f notify/Dockerfile .
+	docker build -f notify/Dockerfile -t gcr.io/${GCP_PROJECT_ID}/notify .
+
+docker-login:
+	cat sa.json | docker login -u _json_key --password-stdin https://gcr.io
+
+gcp-push:
+	docker push "gcr.io/${GCP_PROJECT_ID}/notify"
+	docker push "gcr.io/${GCP_PROJECT_ID}/account"
+
+gcp-pull:
+	docker pull "gcr.io/${GCP_PROJECT_ID}/notify"
+	docker pull "gcr.io/${GCP_PROJECT_ID}/account"
+
+secrets:
+	kubectl create secret generic gmail --from-literal GMAIL_PASSWORD=${GMAIL_PASSWORD} GMAIL_EMAIL=${GMAIL_EMAIL}
+	kubectl create secret generic password --from-literal RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD} DB_PASSWORD=${DB_PASSWORD}
+	

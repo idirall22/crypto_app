@@ -1,0 +1,58 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: account-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      component: account
+  template:
+    metadata:
+      label:
+        component: account
+    spec:
+      containers:
+        - name: account
+          image: gcr.io/gateway-282214/account
+          port: 
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: postgres-service
+            - name: DB_DRIVER
+              value: postgres
+            - name: DB_USER
+              value: postgres
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: password
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              value: cryptoapp
+            - name: DB_PORT
+              value: '5432'
+            - name: JWT_PRIVATE_PATH
+              value: rsa/key.pem
+            - name: JWT_PUBLIC_PATH
+              value: rsa/public.pem
+            - name: PORT
+              value: '8080'
+            - name: RABBITMQ_USER
+              value: user
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: password
+                  key: RABBITMQ_PASSWORD
+            - name: RABBITMQ_HOST
+              value: rabbitmq-service
+            - name: RABBITMQ_PORT
+              value: '5672'
+            - name: REDIS_PORT
+              value: '6379'
+            - name: REDIS_HOST
+              value: redis-service
+            
+              

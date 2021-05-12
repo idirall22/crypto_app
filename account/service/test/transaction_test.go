@@ -90,7 +90,7 @@ func TestSendMoney(t *testing.T) {
 				RecipientAddress: gofakeit.UUID(),
 			},
 			mock: func(ctx context.Context) {
-				mockRepo.On("GetWallet", ctx,
+				mockRepo.On("GetWalletByAddress", ctx,
 					mock.MatchedBy(func(input model.GetWalletParams) bool {
 						return true
 					})).Return(model.Wallet{

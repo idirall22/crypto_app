@@ -15,6 +15,9 @@ WHERE user_id=$1
 var getUserWalletStmt = `
 SELECT * FROM wallet WHERE address=$1 AND user_id=$2 LIMIT 1
 `
+var getWalletStmt = `
+SELECT * FROM wallet WHERE address=$1 LIMIT 1
+`
 
 func (p *PostgresRepo) ListWallets(ctx context.Context, args model.ListWalletsParams) ([]model.Wallet, error) {
 	var wallets []model.Wallet
@@ -25,5 +28,11 @@ func (p *PostgresRepo) ListWallets(ctx context.Context, args model.ListWalletsPa
 func (p *PostgresRepo) GetWallet(ctx context.Context, args model.GetWalletParams) (model.Wallet, error) {
 	var wallet model.Wallet
 	err := p.db.GetContext(ctx, &wallet, getUserWalletStmt, args.Address, args.XXX_UserID)
+	return wallet, parseError(err)
+}
+
+func (p *PostgresRepo) GetWalletByAddress(ctx context.Context, args model.GetWalletParams) (model.Wallet, error) {
+	var wallet model.Wallet
+	err := p.db.GetContext(ctx, &wallet, getWalletStmt, args.Address)
 	return wallet, parseError(err)
 }

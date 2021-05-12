@@ -4,8 +4,12 @@ A simple applicaton that allows users to have wallets and send money to other us
 The architecture used to develop this app is the **Hexagonal Architecture**.
 There are 2 main module the **account** and the **notify** module.
 
+## Database design
+
 ## Run the application
 ### Local
+0. Run Account tests:
+- 
 
 To run the application localy, you have to use docker-compose.yaml file
 1. run `./init.sh` this allows to add the http://cryptoapp.com url to the `/etc/hosts` file

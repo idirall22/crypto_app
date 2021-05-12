@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gorilla/websocket"
 	"github.com/idirall22/crypto_app/auth"
@@ -9,11 +10,12 @@ import (
 )
 
 func (s *Service) Subscribe(ctx context.Context, conn *websocket.Conn) (<-chan model.Notification, error) {
-
+	s.logger.Info("New user subscribe to ws")
 	payload, err := auth.GetPayloadFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("-----------------", payload.UserID)
 
 	s.Lock()
 	defer s.Unlock()

@@ -20,9 +20,6 @@ import (
 
 func main() {
 	cfg := config.New()
-	fmt.Println("---------------------------------------------")
-	fmt.Println(cfg)
-	fmt.Println("---------------------------------------------")
 	logger, err := zap.NewProduction()
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Error to create a logger: %v", err))

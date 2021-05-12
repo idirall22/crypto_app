@@ -1,0 +1,22 @@
+curl --include \
+     --no-buffer \
+     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEyVDEwOjA3OjE4LjYxMjg4Nzk3MVoiLCJleHQiOiIyMDIxLTA1LTEyVDEwOjIyOjE4LjYxMjg4ODIwNFoifQ.Ms-BKqkKlZ7_Bsuel4K_vGWgDRN6AW8FHiJwfRlWhn2cOkxds-7Np2f9DlL7xwsIBt4moMrNDy2GJaSHxBBJiFRnIknGrn6bGEtVW-NsmLkC5RymK4JOhg7pCSqIsXoOF1AaiyWAZDbtB9H39auTG1ubmmssU9pThqOjaTep75nuTY5hZaSftr3hz6Vuupgii0ZQGWN_MaKUr5L2dzFB3akR_0t1ijvZlIrg-eaEJfnkYO4j8VcP05FjFbFmiLqTbKADkJQ6mrzEWTyq7clvLocCsDKgEd144jbwXLVveAV_g5JLngo2IqyQ5_d8FXiP84xfezVR4iJxPXwN44Wewg" \
+     --header "Connection: Upgrade" \
+     --header "Upgrade: websocket" \
+     --header "Host: cryptoapp.com" \
+     --header "Origin: http://cryptoapp.com/" \
+     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+     --header "Sec-WebSocket-Version: 13" \
+     cryptoapp.com/notify/ws
+
+curl --include \
+     --no-buffer \
+     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEyVDEwOjA3OjI3LjE4NDc1Nzg5NFoiLCJleHQiOiIyMDIxLTA1LTEyVDEwOjIyOjI3LjE4NDc1Nzk2NloifQ.XUFVFNIFYMk69Xl4rjBK7GQPdwfOS6T9FJzEhoqM1piRZZAvX30tcKWCiEtXtosXrVNCKXMe_6Nt59FYHX1lj7hiLt13ek0cgRG4HI0MsFbrxkeHSkVXqD_6bVmw_CGb1BRqjJhvIsQuoG3nLxFp4di39RwifoTg7O1fF_LlebIINTDjM7nVGmh0nCaqaPGx_mBNVnCipu7Y_PsJPusOPdjlvKAhmhuhMEcPKGIeKOdWr_dleO088iICgi8ljFyww4ODjstHij2G78bgYV67Qlz2myXEbYoZgyTwEEkaFeRFjwHoAGS7hAoWNu2wN5KOkyn-7mZWdppEBOuAO3zhLg" \
+     --header "Connection: Upgrade" \
+     --header "Upgrade: websocket" \
+     --header "Host: cryptoapp.com" \
+     --header "Origin: http://cryptoapp.com/" \
+     --header "Sec-WebSocket-Key: SGVsbG8sIHavcmxkIQ==" \
+     --header "Sec-WebSocket-Version: 13" \
+     cryptoapp.com/notify/ws
+     

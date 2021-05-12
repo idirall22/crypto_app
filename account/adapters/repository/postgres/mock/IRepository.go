@@ -78,6 +78,27 @@ func (_m *IRepository) GetWallet(ctx context.Context, args model.GetWalletParams
 	return r0, r1
 }
 
+// GetWalletByAddress provides a mock function with given fields: ctx, args
+func (_m *IRepository) GetWalletByAddress(ctx context.Context, args model.GetWalletParams) (model.Wallet, error) {
+	ret := _m.Called(ctx, args)
+
+	var r0 model.Wallet
+	if rf, ok := ret.Get(0).(func(context.Context, model.GetWalletParams) model.Wallet); ok {
+		r0 = rf(ctx, args)
+	} else {
+		r0 = ret.Get(0).(model.Wallet)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, model.GetWalletParams) error); ok {
+		r1 = rf(ctx, args)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListTransactions provides a mock function with given fields: ctx, args
 func (_m *IRepository) ListTransactions(ctx context.Context, args model.ListTransactionsParams) ([]model.Transaction, error) {
 	ret := _m.Called(ctx, args)

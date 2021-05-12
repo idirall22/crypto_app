@@ -37,14 +37,13 @@ func (s *ServiceAccount) SendMoney(ctx context.Context, args model.SendMoneyPara
 		return tran, ErrorInvalidRequestData
 	}
 
-	senderWallet, err := s.GetWallet(ctx, model.GetWalletParams{
+	senderWallet, err := s.repo.GetWalletByAddress(ctx, model.GetWalletParams{
 		Address: args.SenderAddress,
 	})
 	if err != nil {
 		return tran, err
 	}
-
-	recpWallet, err := s.GetWallet(ctx, model.GetWalletParams{
+	recpWallet, err := s.repo.GetWalletByAddress(ctx, model.GetWalletParams{
 		Address: args.RecipientAddress,
 	})
 	if err != nil {

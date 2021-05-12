@@ -1,6 +1,7 @@
 package port
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/websocket"
@@ -40,19 +41,19 @@ func (p *EchoPort) Notification(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusUpgradeRequired, err.Error())
 	}
 	defer conn.Close()
+
 	// Subscribe user
 	notifChan, err := p.service.Subscribe(auth.Context(c), conn)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusUpgradeRequired, "error to subscribe")
 	}
-	defer p.service.Unsubscribe(c.Request().Context())
+	defer p.service.Unsubscribe(auth.Context(c))
 
-	return func() error {
-		for {
-			err = conn.WriteJSON(<-notifChan)
-			if err != nil {
-				return err
-			}
+	for {
+		err = conn.WriteJSON(<-notifChan)
+		if err != nil {
+			return err
 		}
-	}()
+		fmt.Println("Sent to websocket")
+	}
 }

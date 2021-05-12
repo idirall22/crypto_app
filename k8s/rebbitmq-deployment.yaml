@@ -1,4 +1,4 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbitmq-deployment
@@ -9,13 +9,13 @@ spec:
       component: rabbitmq
   template:
     metadata:
-      label:
+      labels:
         component: rabbitmq
     spec:
       containers:
         - name: rabbitmq
           image: rabbitmq:3
-          port: 
+          ports: 
             - containerPort: 5672
           env:
             - name: RABBITMQ_DEFAULT_USER

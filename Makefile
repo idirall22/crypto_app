@@ -49,6 +49,6 @@ gcp-pull:
 	docker pull "gcr.io/${GCP_PROJECT_ID}/account"
 
 secrets:
-	kubectl create secret generic gmail --from-literal GMAIL_PASSWORD=${GMAIL_PASSWORD} GMAIL_EMAIL=${GMAIL_EMAIL}
-	kubectl create secret generic password --from-literal RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD} DB_PASSWORD=${DB_PASSWORD}
+	kubectl create secret generic gmail --from-literal=GMAIL_PASSWORD=${GMAIL_PASSWORD} --from-literal=GMAIL_EMAIL=${GMAIL_EMAIL}
+	kubectl create secret generic password --from-literal=RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD} --from-literal=DB_PASSWORD=${DB_PASSWORD}
 	

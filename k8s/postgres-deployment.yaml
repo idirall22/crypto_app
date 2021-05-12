@@ -1,4 +1,4 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres-deployment
@@ -9,11 +9,21 @@ spec:
       component: postgres
   template:
     metadata:
-      label:
+      labels:
         component: postgres
     spec:
       containers:
         - name: postgres
           image: postgres:13-alpine
-          port: 
+          ports: 
             - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: password
+                  key: DB_PASSWORD
+            - name: POSTGRES_DB
+              value: cryptoapp  

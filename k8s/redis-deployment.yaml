@@ -1,4 +1,4 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-deployment
@@ -9,11 +9,11 @@ spec:
       component: redis
   template:
     metadata:
-      label:
+      labels:
         component: redis
     spec:
       containers:
         - name: redis
           image: redis:latest
-          port: 
+          ports: 
             - containerPort: 6379

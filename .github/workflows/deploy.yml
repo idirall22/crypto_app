@@ -7,20 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-
   deploy:
+    needs: test
     name: Deploy
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout
-        uses: actions/checkout@v2
-
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.14
-      id: go
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
@@ -38,14 +32,19 @@ jobs:
     - name: Build notify container
       run: docker build -f notify/Dockerfile -t gcr.io/${{ secrets.GKE_PROJECT }}/notify .
       working-directory: .
+      
+    - name: Configure docker for GCP
+      run: gcloud auth configure-docker
     
-    - name: docker-login
-	    run: echo ${{ secrets.GKE_SA_KEY }} | docker login -u _json_key --password-stdin https://gcr.io
-      working-directory: .
+    - name: push account container to gcp
+      run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/account"
     
-    - name: push containers to gcp
-      run: |
-        docker push "gcr.io/${{ secrets.GKE_PROJECT }}/notify"
-	      docker push "gcr.io/${{ secrets.GKE_PROJECT }}/account"
-
+    - name: push notify container to gcp
+      run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/notify"
     
+    # - name: setup gcloud
+    #   run: |-
+    #     gcloud config set compute/zone europe-west3-a
+    #     gcloud container clusters get-credentials cryptoapp
+    # - name: deply to k8s
+    #   run: ./deploy.sh

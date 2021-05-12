@@ -9,13 +9,4 @@ spec:
   ports:
     - port: 5432
       targetPort: 5432
-  env:
-    - name: POSTGRES_USER
-      value: postgres
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: password
-          key: DB_PASSWORD
-    - name: POSTGRES_DB
-      value: cryptoapp
+  

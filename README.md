@@ -5,11 +5,11 @@ The application contains 2 main services: the `account` and `notify` service, ea
 And in front of the services, there is an `Nginx` and its role is to be an API gateway, so we can make a request to a single service (Nginx) then it will automatically redirect the request to a service.
 
 ![architecture](https://raw.githubusercontent.com/idirall22/crypto_app/main/cryptoapp.png)
-
+![architecture](https://raw.githubusercontent.com/idirall22/crypto_app/main/service.png)
 ## Database design
 ![database](https://raw.githubusercontent.com/idirall22/crypto_app/main/crypto.png)
 
-## Run the application
+## Run the application Locally
 I recorded a video that you can follow to run the application localy [link](https://youtu.be/8NNINTOq8GE)
 
 To run the application localy, you have to use docker-compose.yaml file.
@@ -40,3 +40,26 @@ note: if the gmail credentials are not set the application will not sent emails
     * send money user1
     * list transactions
 8. Run `make down` to stop the application.
+
+# GKE
+The application was deployed using kubernetes (GKE) http://35.246.250.118:80/
+#### Routes
+1. Check if account service is healthy http://35.246.250.118:80/account/healthy
+2. Check if notify service is healthy http://35.246.250.118:80/notify/healthy
+You can test the application using the same postman file, the only thing to change is the base_url to `http://35.246.250.118`
+
+Websocket:
+To test the websocket you can use the following curl command:
+```
+curl --include \
+     --no-buffer \
+     --header "Authorization:Bearer $$$$$$" \
+     --header "Connection: Upgrade" \
+     --header "Upgrade: websocket" \
+     --header "Host: 35.246.250.118:80" \
+     --header "Origin: http://35.246.250.118:80" \
+     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+     --header "Sec-WebSocket-Version: 13" \
+     35.246.250.118:80/notify/ws
+```
+you have only to replace `$$$$$$` with the `access_token` returned when you login.

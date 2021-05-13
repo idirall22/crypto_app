@@ -99,8 +99,8 @@ jobs:
     - name: push notify container to gcp
       run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/notify"   
         
-    - name: deply to k8s
-      run: |-
-        kubectl apply -f k8s/
-        kubectl set image deployments/account-deployment account=gcr.io/${{ secrets.GKE_PROJECT }}/account
-        kubectl set image deployments/notify-deployment notify=gcr.io/${{ secrets.GKE_PROJECT }}/notify
+    # - name: deply to k8s
+    #   run: |-
+    #     kubectl apply -f k8s/
+    #     kubectl set image deployments/account-deployment account=gcr.io/${{ secrets.GKE_PROJECT }}/account
+    #     kubectl set image deployments/notify-deployment notify=gcr.io/${{ secrets.GKE_PROJECT }}/notify

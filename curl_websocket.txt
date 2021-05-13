@@ -1,13 +1,13 @@
 curl --include \
      --no-buffer \
-     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEyVDEwOjA3OjE4LjYxMjg4Nzk3MVoiLCJleHQiOiIyMDIxLTA1LTEyVDEwOjIyOjE4LjYxMjg4ODIwNFoifQ.Ms-BKqkKlZ7_Bsuel4K_vGWgDRN6AW8FHiJwfRlWhn2cOkxds-7Np2f9DlL7xwsIBt4moMrNDy2GJaSHxBBJiFRnIknGrn6bGEtVW-NsmLkC5RymK4JOhg7pCSqIsXoOF1AaiyWAZDbtB9H39auTG1ubmmssU9pThqOjaTep75nuTY5hZaSftr3hz6Vuupgii0ZQGWN_MaKUr5L2dzFB3akR_0t1ijvZlIrg-eaEJfnkYO4j8VcP05FjFbFmiLqTbKADkJQ6mrzEWTyq7clvLocCsDKgEd144jbwXLVveAV_g5JLngo2IqyQ5_d8FXiP84xfezVR4iJxPXwN44Wewg" \
+     --header "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInVybyI6InVzZXIiLCJpc3QiOiIyMDIxLTA1LTEzVDEwOjM0OjIyLjkwNjkyNzIyNFoiLCJleHQiOiIyMDIxLTA1LTEzVDEwOjQ5OjIyLjkwNjkyNzQxNloifQ.VIOJKCFpgngvK8-KwMA8BW_vjOHn6ArYjiAXWfprgSXDm-kAN0fsqxh7ycCYheXSdZnakLk6MPvyJOR3WddDw6UlitqGMztFw-EnXHN7Ou8e4uCgMlREFEEGbn2o3qbEYQofdvMAYiaQ5fav9iF1T5H6hkhBoIQn2HHKVno4BuhOqTEm8LUoYg6_uyzm0AOUYTUcLyfhq2r61qtfuw0EkL6yrAZiiiuAn5kCKC93DGBl1gbuJQWjj8JGldGUOLRcE0AkT-K5kSpOwspd8vA32bNrPzQ722Jh4PPnKwsDat4d4bac_SVljkAsEVRe97uWz0xLCgRn_2jf5SADaog6vg" \
      --header "Connection: Upgrade" \
      --header "Upgrade: websocket" \
-     --header "Host: cryptoapp.com" \
-     --header "Origin: http://cryptoapp.com/" \
+     --header "Host: 35.246.250.118:80" \
+     --header "Origin: http://35.246.250.118:80" \
      --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
      --header "Sec-WebSocket-Version: 13" \
-     cryptoapp.com/notify/ws
+     35.246.250.118:80/notify/ws
 
 curl --include \
      --no-buffer \
@@ -15,8 +15,8 @@ curl --include \
      --header "Connection: Upgrade" \
      --header "Upgrade: websocket" \
      --header "Host: cryptoapp.com" \
-     --header "Origin: http://cryptoapp.com/" \
+     --header "Origin: http://35.246.250.118:80/" \
      --header "Sec-WebSocket-Key: SGVsbG8sIHavcmxkIQ==" \
      --header "Sec-WebSocket-Version: 13" \
-     cryptoapp.com/notify/ws
+     35.246.250.118:80/notify/ws
      

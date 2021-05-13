@@ -12,6 +12,10 @@ spec:
       labels:
         component: notify
     spec:
+      initContainers:
+        - name: init-notify
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo The app is running! && sleep 15']     
       restartPolicy: Always
       containers:
         - name: notify

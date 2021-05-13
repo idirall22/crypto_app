@@ -12,16 +12,10 @@ spec:
       labels:
         component: account
     spec:
-      # initContainers:
-      #   - name: init-postgres
-      #     image: busybox:1.28
-      #     command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for postgres-service; sleep 2; done"]
-      #   - name: init-rabbitmq
-      #     image: busybox:1.28
-      #     command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for rabbitmq-service; sleep 2; done"]
-      #   - name: init-redis
-      #     image: busybox:1.28
-      #     command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for redis-service; sleep 2; done"]
+      initContainers:
+        - name: init-account
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo The app is running! && sleep 10']     
       restartPolicy: Always  
       containers:
         - name: account

@@ -6,6 +6,7 @@ require (
 	github.com/google/martian v2.1.0+incompatible
 	github.com/gorilla/websocket v1.4.2
 	github.com/idirall22/crypto_app/auth v0.0.0-20210510110047-ba74d9efb255
+	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.3.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/streadway/amqp v1.0.0

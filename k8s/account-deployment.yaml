@@ -22,7 +22,7 @@ spec:
       #   - name: init-redis
       #     image: busybox:1.28
       #     command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for redis-service; sleep 2; done"]
-      restartPolicy: always  
+      restartPolicy: Always  
       containers:
         - name: account
           image: gcr.io/gateway-282214/account

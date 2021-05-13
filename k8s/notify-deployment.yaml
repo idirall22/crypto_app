@@ -12,6 +12,7 @@ spec:
       labels:
         component: notify
     spec:
+      restartPolicy: Always
       containers:
         - name: notify
           image: gcr.io/gateway-282214/notify

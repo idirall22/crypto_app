@@ -5,7 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+env:
+  GKE_CLUSTER: cryptoapp  
+  GKE_ZONE: europe-west3-a
+  
 jobs:
   test:
     name: Test
@@ -75,27 +78,29 @@ jobs:
     - run: |-
         gcloud --quiet auth configure-docker
     
-    - name: Build account container
+    - uses: google-github-actions/get-gke-credentials@v0.2.1
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GKE_SA_KEY }}
+        
+    - name: Build account container 
       run: docker build -f account/Dockerfile -t gcr.io/${{ secrets.GKE_PROJECT }}/account .
       working-directory: .
     
     - name: Build notify container
       run: docker build -f notify/Dockerfile -t gcr.io/${{ secrets.GKE_PROJECT }}/notify .
       working-directory: .
-      
-    - name: Configure docker for GCP
-      run: gcloud auth configure-docker
-    
+
+        
     - name: push account container to gcp
       run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/account"
     
     - name: push notify container to gcp
-      run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/notify"
-    
-    - name: setup gcloud
-      run: |-
-        gcloud config set compute/zone europe-west3-a
-        gcloud container clusters get-credentials cryptoapp
-    
+      run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/notify"   
+        
     - name: deply to k8s
-      run: ./deploy.sh
+      run: |-
+        kubectl apply -f k8s/
+        kubectl set image deployments/account-deployment account=gcr.io/${{ secrets.GKE_PROJECT }}/account
+        kubectl set image deployments/notify-deployment notify=gcr.io/${{ secrets.GKE_PROJECT }}/notify

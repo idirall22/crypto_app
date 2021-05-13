@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /account(/|$)(.*)
+            backend:
+              serviceName: account-service
+              servicePort: 8080
+          - path: /notify(/|$)(.*)
+            backend:
+              serviceName: notify-service
+              servicePort: 8081

@@ -92,9 +92,10 @@ jobs:
     - name: push notify container to gcp
       run: docker push "gcr.io/${{ secrets.GKE_PROJECT }}/notify"
     
-    # - name: setup gcloud
-    #   run: |-
-    #     gcloud config set compute/zone europe-west3-a
-    #     gcloud container clusters get-credentials cryptoapp
-    # - name: deply to k8s
-    #   run: ./deploy.sh
+    - name: setup gcloud
+      run: |-
+        gcloud config set compute/zone europe-west3-a
+        gcloud container clusters get-credentials cryptoapp
+    
+    - name: deply to k8s
+      run: ./deploy.sh

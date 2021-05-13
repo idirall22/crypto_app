@@ -51,4 +51,8 @@ gcp-pull:
 secrets:
 	kubectl create secret generic gmail --from-literal=GMAIL_PASSWORD=${GMAIL_PASSWORD} --from-literal=GMAIL_EMAIL=${GMAIL_EMAIL}
 	kubectl create secret generic password --from-literal=RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD} --from-literal=DB_PASSWORD=${DB_PASSWORD}
-	
+
+tiller:
+	kubectl create serviceaccount --namespace kube-system tiller
+	kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+	helm init --service-account tiller --upgrade

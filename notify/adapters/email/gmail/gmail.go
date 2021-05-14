@@ -15,12 +15,15 @@ type Gmail struct {
 	cfg    *config.Config
 }
 
+// NewGmail create Gmail adapter
 func NewGmail(logger *zap.Logger, cfg *config.Config) *Gmail {
 	return &Gmail{
 		logger: logger,
 		cfg:    cfg,
 	}
 }
+
+// SendRegisterUserConfirmationEmail send register user email using Gmail.
 func (g *Gmail) SendRegisterUserConfirmationEmail(
 	ctx context.Context, args model.RegisterUserConfirmationEmailParams) error {
 

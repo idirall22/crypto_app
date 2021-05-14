@@ -18,6 +18,7 @@ type EchoPort struct {
 	upgrader *websocket.Upgrader
 }
 
+// NewEchoPort create EchoPort
 func NewEchoPort(cfg *config.Config, service service.IService, e *echo.Echo) *EchoPort {
 	return &EchoPort{
 		cfg:     cfg,
@@ -34,6 +35,7 @@ func (p *EchoPort) Healthy(c echo.Context) error {
 	return c.JSON(http.StatusOK, "healthy")
 }
 
+// Notification Upgrade a connection to websocket and push notifications
 func (p *EchoPort) Notification(c echo.Context) error {
 
 	conn, err := p.upgrader.Upgrade(c.Response(), c.Request(), c.Response().Header())

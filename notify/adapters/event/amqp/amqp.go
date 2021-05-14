@@ -18,6 +18,7 @@ func NewAmqpEventStore(conn *amqp.Connection) *AmqpEventStore {
 	}
 }
 
+// ReceiveEmail consume email for email channel
 func (a *AmqpEventStore) ReceiveEmail(ctx context.Context,
 	queueName string, fn func(d amqp.Delivery) error) error {
 
@@ -45,6 +46,7 @@ func (a *AmqpEventStore) ReceiveEmail(ctx context.Context,
 	}
 }
 
+// ReceiveNotification consume email for notification channel
 func (a *AmqpEventStore) ReceiveNotification(ctx context.Context,
 	queueName string, fn func(d amqp.Delivery) error) error {
 

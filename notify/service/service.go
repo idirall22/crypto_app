@@ -23,6 +23,7 @@ type Service struct {
 	sync.RWMutex
 }
 
+// create new service
 func NewService(logger *zap.Logger, email iemail.IEmail, eventStore event.IEventStore) *Service {
 	return &Service{
 		logger:      logger,
@@ -32,6 +33,7 @@ func NewService(logger *zap.Logger, email iemail.IEmail, eventStore event.IEvent
 	}
 }
 
+// start service and listen to messages from event store
 func (s *Service) Start(ctx context.Context) error {
 	go func() {
 		err := s.ReceiveEmail(ctx)

@@ -24,11 +24,10 @@ import (
 )
 
 func main() {
+	// create config
 	cfg := config.New()
 
-	fmt.Println("-----------------------------------------------")
-	fmt.Println(cfg)
-	fmt.Println("-----------------------------------------------")
+	// create zap logger
 	logger, err := zap.NewProduction()
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Error to create a logger: %v", err))
@@ -58,6 +57,7 @@ func main() {
 	ctx, fn := context.WithCancel(context.Background())
 	defer fn()
 
+	// create new service logic
 	service := service.NewServiceAccount(logger, repo, event, memory, jwtGen)
 	go func() {
 		err := service.Start(ctx)
@@ -66,17 +66,14 @@ func main() {
 		}
 	}()
 
+	// create new port
 	e := echo.New()
 	echoPort := port.NewEchoPort(cfg, service, e)
 	echoPort.InitRoutes(jwtGen)
 
+	// run server
 	logger.Info(fmt.Sprintf("Server started at %s", cfg.Port))
-
 	graceful.Run(":"+cfg.Port, 5*time.Second, e)
-	// err = graceful.ListenAndServe(e.Server, 5*time.Second)
-	// if err != nil {
-	// 	logger.Info(err.Error())
-	// }
 }
 
 func connectToDatabase(cfg *config.Config) *sqlx.DB {

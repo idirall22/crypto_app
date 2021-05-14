@@ -4,10 +4,10 @@ A simple app that allows users to have wallets and send money to other users.
 The application contains 2 main services: the `account` and `notify` service, each was developed using **Hexagonal Architecture**. The services communicate with each other using **Event driven Architecture** in this case, the account service communicates with the notification via Rabbitmq.
 And in front of the services, there is an `Nginx` and its role is to be an API gateway, so we can make a request to a single service (Nginx) then it will automatically redirect the request to a service.
 
-![architecture](https://raw.githubusercontent.com/idirall22/crypto_app/main/cryptoapp.png)
-![architecture](https://raw.githubusercontent.com/idirall22/crypto_app/main/service.png)
+![architecture](https://raw.githubusercontent.com/idirall22/crypto_app/main/images/cryptoapp.png)
+![architecture](https://raw.githubusercontent.com/idirall22/crypto_app/main/images/service.png)
 ## Database design
-![database](https://raw.githubusercontent.com/idirall22/crypto_app/main/crypto.png)
+![database](https://raw.githubusercontent.com/idirall22/crypto_app/main/images/crypto.png)
 
 ## Run the application Locally
 I recorded a video that you can follow to run the application localy [link](https://youtu.be/8NNINTOq8GE)

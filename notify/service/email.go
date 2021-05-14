@@ -9,6 +9,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
+// ReceiveEmail logic to do when the service receive a email
 func (s *Service) ReceiveEmail(ctx context.Context) error {
 	return s.eventStore.ReceiveEmail(ctx, "email", func(d amqp.Delivery) error {
 		s.logger.Info("Receive new email...")

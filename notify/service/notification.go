@@ -8,6 +8,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
+// ReceiveNotification logic to do when the service receive a notification
 func (s *Service) ReceiveNotification(ctx context.Context) error {
 	return s.eventStore.ReceiveNotification(ctx, "notification", func(d amqp.Delivery) error {
 		s.logger.Info("Receive new notification...")
